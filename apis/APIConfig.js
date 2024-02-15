@@ -1,4 +1,4 @@
-let host = 'http://localhost:8000/api/v1';
+let host = 'https://e-library-backend-pi.vercel.app/api/v1';
 
 export const USER_API_URL = `${host}/user`;
 export const BOOK_API_URL = `${host}/book`;
