@@ -1,7 +1,7 @@
 import { usePlatformPay } from '@stripe/stripe-react-native';
 import { useEffect, useState } from 'react';
-import { getStripeSecret } from '../../apis/PaymentService';
-import { Alert, Text, View } from 'react-native';
+import { getStripeSecret, getVNPayUrl } from '../../apis/PaymentService';
+import { Alert, Text, TouchableOpacity, View } from 'react-native';
 
 const PaymentScreen = () => {
     const [stripeSecret, setStripeSecret] = useState('');
@@ -28,7 +28,7 @@ const PaymentScreen = () => {
         // checkGooglePaySupport()
     }, [])
 
-    const handlePayment = async () => {
+    const handleGPayment = async () => {
         const { error } = await confirmPlatformPayPayment(
             stripeSecret,
             {
@@ -49,9 +49,22 @@ const PaymentScreen = () => {
         Alert.alert('Success', 'The payment was confirmed successfully.');
     }
 
+    const handleVNPPayment = () => {
+        getVNPayUrl(100000).then((res) => {
+            console.log(res.data)
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
     return (
         <View style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
-
+            <TouchableOpacity onPress={() => handleGPayment()} >
+                <Text>Google Pay</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => handleVNPPayment()} style={{marginTop: 50}} >
+                <Text>VNPay</Text>
+            </TouchableOpacity>
         </View>
     )
 }
