@@ -53,7 +53,7 @@ const LoginScreen = () => {
 
                     <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} style={styles.registerAsk}>
                         <Text style={styles.registerAskHeadingText}>Don't have an account?</Text>
-                        <TouchableOpacity onPress={() => navigation.push('Register')}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                             <Text style={styles.registerAskSubText}>Register</Text>
                         </TouchableOpacity>
                     </Animated.View>

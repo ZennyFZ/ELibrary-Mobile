@@ -43,7 +43,7 @@ const RegisterScreen = () => {
 
                     <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} style={styles.registerAsk}>
                         <Text style={styles.registerAskHeadingText}>Already have an account?</Text>
-                        <TouchableOpacity onPress={() => navigation.push('Login')}>
+                        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                             <Text style={styles.registerAskSubText}>Login</Text>
                         </TouchableOpacity>
                     </Animated.View>

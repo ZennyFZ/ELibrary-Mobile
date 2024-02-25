@@ -2,15 +2,12 @@ import { useNavigation } from '@react-navigation/native';
 import { Image, ScrollView, TouchableOpacity } from 'react-native';
 import { View, Text } from 'react-native';
 import styles from './Style';
-import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CustomeHeader from '../../components/CustomHeader/CustomHeader'
 const BookDetail = ({ route }) => {
     const navigation = useNavigation();
     const bookData = route.params.book;
     const prevScreen = route.params.prevScreen;
-
-    const goToPrevScreen = () => {
-        navigation.navigate(prevScreen)
-    }
+    const category = route.params.category;
 
     const goToCart = () => {
         navigation.navigate("Cart")
@@ -19,14 +16,7 @@ const BookDetail = ({ route }) => {
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View>
-                <View style={styles.bookDetailHeader}>
-                    <TouchableOpacity onPress={goToPrevScreen}>
-                        <Image source={require('../../assets/Arrow.png')} style={styles.arrow} />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={goToCart}>
-                        <Ionicons name="cart-outline" size={30} style={styles.cart} />
-                    </TouchableOpacity>
-                </View>
+                <CustomeHeader prevScreen={prevScreen} category={category} />
 
                 <View>
                     <Image source={{ uri: bookData.image }} style={styles.detailImage} />

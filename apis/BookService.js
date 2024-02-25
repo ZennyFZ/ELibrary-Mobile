@@ -69,9 +69,14 @@ const filterBookByCategory = (category) => {
     return axios.get(`${BOOK_API_URL}/filter-book?category=${category}`);
 }
 
+//search
+const searchBook = (keyword) => {
+    return axios.get(`${BOOK_API_URL}/search?name=${keyword}`);
+}
+
 //suggest
 const suggestBookForUser = (userId) => {
     return axios.post(`${BOOK_API_URL}/suggest-book`, { id: userId }, {headers: headerOptions});
 }
 
-export { getBooks, getBook, getCategories, addBook, uploadBookImage, uploadBookFile, updateBook, deleteBook, filterBookByCategory, suggestBookForUser }
+export { getBooks, getBook, getCategories, addBook, uploadBookImage, uploadBookFile, updateBook, deleteBook, filterBookByCategory, searchBook, suggestBookForUser }

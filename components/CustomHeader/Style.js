@@ -15,6 +15,17 @@ const styles = StyleSheet.create({
     headerTitle: {
         color: "#fff",
         fontSize: 20,
+    },
+    cartBadge: {
+        position: "absolute",
+        top: -5,
+        right: -5,
+        color: "#fff",
+        borderRadius: 50,
+        width: 20,
+        height: 20,
+        textAlign: "center",
+        fontSize: 20
     }
 })
 
