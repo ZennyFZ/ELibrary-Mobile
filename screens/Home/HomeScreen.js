@@ -6,11 +6,16 @@ import { useNavigation } from "@react-navigation/native";
 
 import { getBooks, suggestBookForUser } from "../../apis/BookService";
 import { retrieveData } from '../../utils/AsyncStorage'
+import { addToCart } from "../../redux/CartReducer";
+
+import SearchBar from "../../components/SearchBar/SearchBar";
+import { useDispatch } from "react-redux";
 
 const HomeScreen = () => {
   const [books, setBooks] = useState([]);
   const [suggestedBooks, setSuggestedBooks] = useState([]);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   const fetchBookData = async () => {
     try {
@@ -35,6 +40,10 @@ const HomeScreen = () => {
     navigation.navigate("BookDetail", {prevScreen: "Home", book: bookInformation });
   }
 
+  const addToCartHandler = (book) => {
+    dispatch(addToCart(book));
+  }
+
   useEffect(() => {
     fetchBookData()
   }, []);
@@ -49,12 +58,9 @@ const HomeScreen = () => {
             <Ionicons name="messenger" size={30} color="white" />
           </TouchableOpacity>
         </View>
-        <View style={styles.searchContainer}>
-          <TextInput
-            placeholder="Search book..."
-            style={styles.searchInput}
-          />
-        </View>
+
+        <SearchBar />
+
         <View style={styles.bookContainer}>
           {/* Show first 6 books */}
           <View>
@@ -70,14 +76,14 @@ const HomeScreen = () => {
             >
               {books.slice(0, 6).map(book => {
                 return (
-                  <TouchableOpacity key={book.id} onPress={() => goToBookDetail(book)}>
+                  <TouchableOpacity key={book._id} onPress={() => goToBookDetail(book)} >
                     <View style={styles.bookCard}>
                       <Image source={{ uri: book.image }} style={{ width: 300, height: 300 }} />
                       <View style={styles.bookCardContent}>
                         <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{book.title}</Text>
                         <Text style={styles.bookCardAuthor}>{book.author}</Text>
                         <Text style={styles.bookCardPrice}>{book.price}đ</Text>
-                        <TouchableOpacity style={styles.bookCardButton}>
+                        <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(book)}>
                           <Text style={styles.bookCardButtonText}>Add To Cart</Text>
                         </TouchableOpacity>
                       </View>
@@ -98,7 +104,7 @@ const HomeScreen = () => {
               >
                 {suggestedBooks.slice(0,6).map(book => {
                   return (
-                    <View key={book.id}>
+                    <View key={book._id}>
                       <View style={styles.bookCard}>
                         <Image source={{ uri: book.image }} style={{ width: 300, height: 300 }} />
                         <View style={styles.bookCardContent}>
