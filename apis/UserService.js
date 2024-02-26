@@ -34,4 +34,12 @@ const registerAccount = (email, password) => {
     })
 }
 
-export { loginAccount, getCurrentUser, registerAccount, logout }
+const getBooks = (userId) => {
+    return axios.get(`${USER_API_URL}/get-books/${userId}`, {
+        headers: {
+            "Cookie": `jwt=${getToken()}`,
+        }
+    });
+}
+
+export { loginAccount, getCurrentUser, registerAccount, logout, getBooks }
