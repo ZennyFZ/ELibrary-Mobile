@@ -1,4 +1,6 @@
+import { StyleSheet, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
 const screenOptions = ({ route }) => ({
     headerShown: false,
     tabBarIcon: ({ focused, color, size }) => {
@@ -13,14 +15,23 @@ const screenOptions = ({ route }) => ({
             case 'Cart':
                 iconName = focused ? 'cart' : 'cart-outline';
                 break;
-            case 'My Book':
+            case 'MyBook':
                 iconName = focused ? 'book' : 'book-outline';
                 break;
             case 'Account':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
         }
-        return <Ionicons name={iconName} size={size} color={color} />;
+        if (iconName === 'cart' || iconName === 'cart-outline') {
+            return (
+                <Text>
+                    <Ionicons name={iconName} size={size} color={color} />
+                    <Text style={styles.cartBadge}>{0}</Text>
+                </Text>
+            )
+        } else {
+            return <Ionicons name={iconName} size={size} color={color} />;
+        }
     },
     tabBarActiveTintColor: '#92B4D3',
     tabBarInactiveTintColor: 'gray',
@@ -30,5 +41,19 @@ const tabOptions = {
     tabBarButton: () => null,
     tabBarStyle: { display: 'none' },
 }
+
+const styles = StyleSheet.create({
+    cartBadge: {
+        position: 'absolute',
+        top: -5,
+        right: -10,
+        borderRadius: 10,
+        width: 20,
+        height: 20,
+        textAlign: 'center',
+        color: 'black',
+        fontSize: 12
+    }
+})
 
 export { screenOptions, tabOptions }

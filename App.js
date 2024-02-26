@@ -17,6 +17,9 @@ import HomeScreen from './screens/Home/HomeScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import PaymentScreen from './screens/Payment/PaymentScreen'
 import AccountScreen from './screens/Account/AccountScreen';
+import OrderScreen from './screens/Account/Order/OrderScreen';
+import EditProfileScreen from './screens/Account/EditProfile/EditProfileScreen';
+import ChangePasswordScreen from './screens/Account/ChangePassword/ChangePasswordScreen';
 import CartScreen from './screens/Cart/CartScreen';
 import CategoryScreen from './screens/Category/CategoryScreen';
 import CategoryDetailScreen from './screens/Category/CategoryDetailScreen';
@@ -24,6 +27,7 @@ import MyBookScreen from './screens/MyBook/MyBookScreen';
 import BookDetail from './screens/BookDetail/BookDetailScreen';
 import BookListScreen from './screens/BookList/BookListScreen';
 import SearchScreen from './screens/Search/SearchScreen';
+import BookViewerScreen from './screens/MyBook/BookViewerScreen';
 import AdminScreen from './screens/Admin/AdminScreen';
 
 // APIs and Utils
@@ -69,10 +73,14 @@ export default function App() {
             <Tab.Screen name="BookDetail" component={BookDetail} options={tabOptions} />
             <Tab.Screen name="CategoryDetail" component={CategoryDetailScreen} options={tabOptions} />
             <Tab.Screen name="Search" component={SearchScreen} options={tabOptions} />
+            <Tab.Screen name="BookViewer" component={BookViewerScreen} options={tabOptions} />
+            <Tab.Screen name="EditProfile" component={EditProfileScreen} options={tabOptions} />
+            <Tab.Screen name="ChangePassword" component={ChangePasswordScreen} options={tabOptions} />
+            <Tab.Screen name="Order" component={OrderScreen} options={tabOptions} />
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Category" component={CategoryScreen} />
             <Tab.Screen name="Cart" component={CartScreen} />
-            <Tab.Screen name="My Book" component={MyBookScreen} />
+            <Tab.Screen name="MyBook" component={MyBookScreen} />
             <Tab.Screen name="Account" component={AccountScreen} />
           </Tab.Navigator>
         </NavigationContainer>
