@@ -37,7 +37,7 @@ const HomeScreen = () => {
 
   const goToBookDetail = (bookInformation) => {
     console.log(bookInformation);
-    navigation.navigate("BookDetail", {prevScreen: "Home", book: bookInformation });
+    navigation.navigate("BookDetail", { prevScreen: "Home", book: bookInformation });
   }
 
   const addToCartHandler = (book) => {
@@ -73,12 +73,13 @@ const HomeScreen = () => {
             <ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
+
             >
               {books.slice(0, 6).map(book => {
                 return (
                   <TouchableOpacity key={book._id} onPress={() => goToBookDetail(book)} >
                     <View style={styles.bookCard}>
-                      <Image source={{ uri: book.image }} style={{ width: 300, height: 300 }} />
+                      <Image source={{ uri: book.image }} style={{ width: 200, height: 300 }} />
                       <View style={styles.bookCardContent}>
                         <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{book.title}</Text>
                         <Text style={styles.bookCardAuthor}>{book.author}</Text>
@@ -102,11 +103,11 @@ const HomeScreen = () => {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
               >
-                {suggestedBooks.slice(0,6).map(book => {
+                {suggestedBooks.slice(0, 6).map(book => {
                   return (
                     <View key={book._id}>
                       <View style={styles.bookCard}>
-                        <Image source={{ uri: book.image }} style={{ width: 300, height: 300 }} />
+                        <Image source={{ uri: book.image }} style={{ width: 200, height: 300 }} />
                         <View style={styles.bookCardContent}>
                           <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{book.title}</Text>
                           <Text style={styles.bookCardAuthor}>{book.author}</Text>

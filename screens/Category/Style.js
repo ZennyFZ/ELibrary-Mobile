@@ -11,9 +11,9 @@ const styles = StyleSheet.create({
     categoryBox: {
         display: 'flex',
         alignItems: 'center',
+
     },
     categoryItem: {
-        backgroundColor: '#fff',
         margin: 10,
         padding: 15,
         borderRadius: 5,
@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.8,
         shadowRadius: 2,
+        backgroundColor: "#E67E22"
     },
     categoryLabel: {
         fontSize: 16,
@@ -28,14 +29,14 @@ const styles = StyleSheet.create({
     },
     bookCard: {
         width: windowWidth / 2.2,
-        height: windowHeight / 2.5,
+        height: "auto",
         margin: 10,
         backgroundColor: "#fff",
         borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: {
-        width: 0,
-        height: 10,
+            width: 0,
+            height: 10,
         },
         shadowOpacity: 0.12,
         shadowRadius: 20,
