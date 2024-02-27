@@ -19,10 +19,10 @@ const HomeScreen = () => {
 
   const fetchBookData = async () => {
     try {
-      const id = await retrieveData("userId");
-
       const booksResponse = await getBooks();
       setBooks(booksResponse.data.bookList);
+
+      const id = await retrieveData("userId");
 
       const suggestedBooksResponse = await suggestBookForUser(id);
       setSuggestedBooks(suggestedBooksResponse.data.bookList);

@@ -10,10 +10,10 @@ const Category = () => {
     const navigation = useNavigation()
 
     const getAllCategories = () => {
-        getCategories().then((response) => {
-            setCategories(response.data.categories)
-        }).catch((error) => {
-            console.log(error)
+        getCategories().then((res) => {
+            setCategories(res.data.categories)
+        }).catch((err) => {
+            console.log(err)
         })
     }
 

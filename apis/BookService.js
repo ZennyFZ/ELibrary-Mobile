@@ -2,10 +2,6 @@ import axios from "axios";
 import { BOOK_API_URL } from "./APIConfig";
 import { getToken } from "../utils/SecureStore";
 
-const headerOptions = {
-    "Cookie": `jwt=${getToken()}`,
-}
-
 const getBooks = () => {
     return axios.get(`${BOOK_API_URL}/get-all-books`);
 }
@@ -19,7 +15,8 @@ const getCategories = () => {
 }
 
 //CRUD (admin only)
-const addBook = (title, author, publisher, publishDate, pages, language, price, image, description, category, file) => {
+const addBook = async(title, author, publisher, publishDate, pages, language, price, image, description, category, file) => {
+    const token = await getToken();
     return axios.post(`${BOOK_API_URL}/add-book`, {
         title,
         author,
@@ -33,18 +30,21 @@ const addBook = (title, author, publisher, publishDate, pages, language, price, 
         isDeleted: false,
         category,
         file
-    }, { withCredentials: true });
+    }, { headers: { Cookie: `jwt=${token}` } });
 }
 
-const uploadBookImage = (formData) => {
-    return axios.post(`${BOOK_API_URL}/upload-book-image`, formData, { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true });
+const uploadBookImage = async(formData) => {
+    const token = await getToken();
+    return axios.post(`${BOOK_API_URL}/upload-book-image`, formData, { headers: { 'Content-Type': 'multipart/form-data', 'Cookie': `jwt=${token}` }});
 }
 
-const uploadBookFile = (formData) => {
-    return axios.post(`${BOOK_API_URL}/upload-book-file`, formData, { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true });
+const uploadBookFile = async(formData) => {
+    const token = await getToken();
+    return axios.post(`${BOOK_API_URL}/upload-book-file`, formData, { headers: { 'Content-Type': 'multipart/form-data', 'Cookie': `jwt=${token}` }});
 }
 
-const updateBook = (id, title, author, publisher, publishDate, pages, language, price, image, description, category, file) => {
+const updateBook = async(id, title, author, publisher, publishDate, pages, language, price, image, description, category, file) => {
+    const token = await getToken();
     return axios.put(`${BOOK_API_URL}/update-book/${id}`, {
         title,
         author,
@@ -57,11 +57,12 @@ const updateBook = (id, title, author, publisher, publishDate, pages, language, 
         description,
         category,
         file
-    }, { withCredentials: true });
+    }, { headers: { Cookie: `jwt=${token}` } });
 }
 
-const deleteBook = (id) => {
-    return axios.delete(`${BOOK_API_URL}/delete-book/${id}`, { withCredentials: true });
+const deleteBook = async(id) => {
+    const token = await getToken();
+    return axios.delete(`${BOOK_API_URL}/delete-book/${id}`, { headers: { Cookie: `jwt=${token}` } });
 }
 
 //filter
@@ -75,8 +76,9 @@ const searchBook = (keyword) => {
 }
 
 //suggest
-const suggestBookForUser = (userId) => {
-    return axios.post(`${BOOK_API_URL}/suggest-book`, { id: userId }, {headers: headerOptions});
+const suggestBookForUser = async(userId) => {
+    const token = await getToken();
+    return axios.post(`${BOOK_API_URL}/suggest-book`, { id: userId },  { headers: { Cookie: `jwt=${token}` } });
 }
 
 export { getBooks, getBook, getCategories, addBook, uploadBookImage, uploadBookFile, updateBook, deleteBook, filterBookByCategory, searchBook, suggestBookForUser }
