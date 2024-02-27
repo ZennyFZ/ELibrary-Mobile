@@ -15,6 +15,7 @@ const LoginScreen = () => {
         loginAccount(email, password).then((res) => {
             const jwtToken = res.data.token
             saveToken(jwtToken)
+            navigation.navigate('Home')
         }).catch((error) => {
             console.log(error)
         })
