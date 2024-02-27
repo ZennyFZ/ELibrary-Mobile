@@ -32,7 +32,9 @@ const Category = () => {
             <FlatList
                 contentContainerStyle={styles.categoryBox}
                 data={categories}
-                numColumns={5}
+                // numColumns={5}
+                horizontal={false}
+                showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <View style={styles.categoryItem}>
                         <TouchableOpacity onPress={() => goToCategoryDetail(item.name)}>

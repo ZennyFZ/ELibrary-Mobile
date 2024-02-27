@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 30,
         width: windowWidth,
-        height: windowHeight,
+        height: "auto",
         backgroundColor: "#F3F4F6",
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
@@ -69,11 +69,12 @@ const styles = StyleSheet.create({
         height: 'auto',
         backgroundColor: "white",
         margin: 10,
-        marginTop: 55,
+        marginTop: 40,
         borderRadius: 10,
         padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
+
     },
     bookCardContent: {
         display: 'flex',

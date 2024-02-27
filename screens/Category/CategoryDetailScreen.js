@@ -1,6 +1,6 @@
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import styles from "./Style";
-import {filterBookByCategory} from "../../apis/BookService";
+import { filterBookByCategory } from "../../apis/BookService";
 import { useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
@@ -24,7 +24,7 @@ const CategoryDetailScreen = ({ route }) => {
     }
 
     const goToBookDetail = (book) => {
-        navigation.navigate("BookDetail", { prevScreen: "CategoryDetail", category: book.category.name , book: book })
+        navigation.navigate("BookDetail", { prevScreen: "CategoryDetail", category: book.category.name, book: book })
     }
 
     useFocusEffect(
@@ -45,12 +45,13 @@ const CategoryDetailScreen = ({ route }) => {
             <FlatList
                 data={books}
                 numColumns={2}
+
                 renderItem={({ item }) => {
                     return (
                         <TouchableOpacity key={item._id} onPress={() => goToBookDetail(item)}>
                             <View style={styles.bookCard}>
                                 <View style={styles.bookCardContent}>
-                                    <Image source={{ uri: item.image }} style={{ width: 280, height: 300 }} />
+                                    <Image source={{ uri: item.image }} style={{ width: 200, height: 300 }} />
                                     <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{item.title}</Text>
                                     <Text style={styles.bookCardAuthor}>{item.author}</Text>
                                     <Text style={styles.bookCardPrice}>{item.price}đ</Text>
