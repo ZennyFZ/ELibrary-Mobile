@@ -9,10 +9,6 @@ const BookDetail = ({ route }) => {
     const prevScreen = route.params.prevScreen;
     const category = route.params.category;
 
-    const goToCart = () => {
-        navigation.navigate("Cart")
-    }
-
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
             <View>

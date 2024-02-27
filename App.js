@@ -33,6 +33,7 @@ import AdminScreen from './screens/Admin/AdminScreen';
 // APIs and Utils
 import { getCurrentUser } from './apis/UserService';
 import { screenOptions, tabOptions } from './utils/TabSetting';
+import OrderDetailScreen from './screens/Account/Order/OrderDetailScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -41,12 +42,14 @@ export default function App() {
 
   const getInitialRoute = () => {
     getCurrentUser().then((res) => {
-      if (res) {
+      if (res.status === 200) {
         storeData("userId", res.data.user._id)
         setInitialRoute("Home")
       } else {
         setInitialRoute("Login")
       }
+    }).catch((err) => {
+      setInitialRoute("Login")
     })
   }
 
@@ -77,6 +80,7 @@ export default function App() {
             <Tab.Screen name="EditProfile" component={EditProfileScreen} options={tabOptions} />
             <Tab.Screen name="ChangePassword" component={ChangePasswordScreen} options={tabOptions} />
             <Tab.Screen name="Order" component={OrderScreen} options={tabOptions} />
+            <Tab.Screen name="OrderDetail" component={OrderDetailScreen} options={tabOptions} />
             <Tab.Screen name="Home" component={HomeScreen} />
             <Tab.Screen name="Category" component={CategoryScreen} />
             <Tab.Screen name="Cart" component={CartScreen} />

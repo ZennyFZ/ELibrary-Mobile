@@ -36,7 +36,7 @@ const Account = () => {
                     <Text style={styles.cardTitle}>{user.name}</Text>
                     <Text style={styles.cardEmail}>{user.email}</Text>
                 </View>
-                <TouchableOpacity style={styles.editIcon}>
+                <TouchableOpacity style={styles.editIcon} onPress={() => navigation.navigate("EditProfile")}>
                     <Ionicons name="edit" size={30} color="#E67E22" />
                 </TouchableOpacity>
             </View>
