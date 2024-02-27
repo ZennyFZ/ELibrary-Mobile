@@ -8,15 +8,14 @@ const getStripeSecret = (amount) => {
     })
 }
 
-const getVNPayUrl = (amount) => {
+const getVNPayUrl = async(amount) => {
+    const token = await getToken();
     return axios.post(`${PAYMENT_API_URL}/payment`, {
         amount,
         methodType: 'Bank'
     }, {
         headers: {
-            headers: {
-                "Cookie": `jwt=${getToken()}`,
-            }
+            "Cookie": `jwt=${getToken()}`,
         }
     })
 }

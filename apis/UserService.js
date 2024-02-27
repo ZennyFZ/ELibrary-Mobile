@@ -15,12 +15,9 @@ const loginAccount = (email, password) => {
     })
 }
 
-const getCurrentUser = () => {
-    return axios.get(`${USER_API_URL}/get-current-user`, {
-        headers: {
-            "Cookie": `jwt=${getToken()}`,
-        }
-    })
+const getCurrentUser = async() => {
+    const token = await getToken();
+    return axios.get(`${USER_API_URL}/get-current-user`, { headers: { Cookie: `jwt=${token}` } })
 }
 
 const logout = () => {
@@ -34,12 +31,9 @@ const registerAccount = (email, password) => {
     })
 }
 
-const getBooks = (userId) => {
-    return axios.get(`${USER_API_URL}/get-books/${userId}`, {
-        headers: {
-            "Cookie": `jwt=${getToken()}`,
-        }
-    });
+const getBooks = async(userId) => {
+    const token = await getToken();
+    return axios.get(`${USER_API_URL}/get-books/${userId}`, { headers: { Cookie: `jwt=${token}` } });
 }
 
 export { loginAccount, getCurrentUser, registerAccount, logout, getBooks }
