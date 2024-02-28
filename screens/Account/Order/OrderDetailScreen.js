@@ -1,8 +1,8 @@
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native"
 import styles from "./Style"
-import { useNavigation } from "@react-navigation/native"
+import { useFocusEffect, useNavigation } from "@react-navigation/native"
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { getOrderDetail } from "../../../apis/OrderService"
 
 const OrderDetailScreen = ({ route }) => {
@@ -19,9 +19,11 @@ const OrderDetailScreen = ({ route }) => {
         })
     }
 
-    useEffect(() => {
-        getOrderDetailData()
-    }, [])
+    useFocusEffect(
+        useCallback(() => {
+            getOrderDetailData()
+        }, [])
+    )
 
     return (
         <View style={styles.orderDetailContainer}>
