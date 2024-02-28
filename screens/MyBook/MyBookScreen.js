@@ -1,8 +1,8 @@
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import styles from "./Style";
 import { getBooks } from "../../apis/UserService";
-import { useNavigation } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
 import { retrieveData } from "../../utils/AsyncStorage";
 
 const MyBook = () => {
@@ -27,9 +27,11 @@ const MyBook = () => {
         navigation.navigate("BookViewer", { pdfLink: bookFileUrl });
     }
 
-    useEffect(() => {
-        getUserBooks();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            getUserBooks();
+        }, [])
+    );
 
     return (
         <View style={{ flex: 1 }}>

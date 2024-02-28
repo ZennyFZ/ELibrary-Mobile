@@ -1,8 +1,8 @@
 import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from "./Style";
 import Ionicons from 'react-native-vector-icons/Fontisto';
-import { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { getBooks, suggestBookForUser } from "../../apis/BookService";
 import { retrieveData } from '../../utils/AsyncStorage'
@@ -24,12 +24,14 @@ const HomeScreen = () => {
 
       const id = await retrieveData("userId");
 
+
       const suggestedBooksResponse = await suggestBookForUser(id);
       if (suggestedBooksResponse.data.bookList) {
         setSuggestedBooks(suggestedBooksResponse.data.bookList);
       }
+
     } catch (error) {
-      console.log('home: '+error);
+      console.log(error);
     }
   };
 
@@ -46,9 +48,11 @@ const HomeScreen = () => {
     dispatch(addToCart(book));
   }
 
-  useEffect(() => {
-    fetchBookData()
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchBookData();
+    }, [])
+  );
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>

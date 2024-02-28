@@ -2,8 +2,8 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { getOrderByUserId } from "../../../apis/OrderService";
 import { retrieveData } from "../../../utils/AsyncStorage";
 import styles from "./Style";
-import { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const OrderScreen = () => {
@@ -22,9 +22,11 @@ const OrderScreen = () => {
         }
     }
 
-    useEffect(() => {
-        getUserOrders();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            getUserOrders();
+        }, [])
+    );
 
     return (
         <View style={styles.container}>

@@ -1,10 +1,10 @@
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import styles from "./Style";
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { getCurrentUser } from '../../apis/UserService';
 import Ionicons from 'react-native-vector-icons/AntDesign';
 import { deleteToken } from '../../utils/SecureStore';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Account = () => {
@@ -26,9 +26,11 @@ const Account = () => {
         navigation.navigate("Login");
     }
 
-    useEffect(() => {
-        getUserInformation();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            getUserInformation();
+        }, [])
+    );
 
     return (
         <View style={styles.accountContainer}>
