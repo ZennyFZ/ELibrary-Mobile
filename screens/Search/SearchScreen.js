@@ -5,7 +5,7 @@ import CustomHeader from "../../components/CustomHeader/CustomHeader";
 import { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import Loading from "../../components/Loading/Loading";
+import {Loading} from "../../components/Loading/Loading";
 
 const SearchScreen = ({ route }) => {
     const navigation = useNavigation();

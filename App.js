@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import cartStore from './redux/store';
 
 // Custom Components
-import Loading from './components/Loading/Loading';
+import {Loading} from './components/Loading/Loading';
 
 // Screens
 import LoginScreen from './screens/Login/LoginScreen';

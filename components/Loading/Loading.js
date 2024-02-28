@@ -1,4 +1,4 @@
-import { Image, Text, View } from "react-native"
+import { Image, Text, View, ActivityIndicator } from "react-native"
 import styles from "./Style"
 
 const Loading = () => {
@@ -23,4 +23,13 @@ const Loading = () => {
     )
 }
 
-export default Loading
+const Loading2 = ({loadingText, size}) => {
+    return (
+        <View style={[styles.container, styles.horizontal]}>
+            <ActivityIndicator size={size} color="#0000ff" />
+            <Text>{loadingText}</Text>
+        </View>
+    )
+}
+
+export {Loading, Loading2}

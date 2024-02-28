@@ -29,7 +29,7 @@ const HomeScreen = () => {
         setSuggestedBooks(suggestedBooksResponse.data.bookList);
       }
     } catch (error) {
-      console.log(error);
+      console.log('home: '+error);
     }
   };
 
