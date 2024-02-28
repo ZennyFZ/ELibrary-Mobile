@@ -5,6 +5,7 @@ import { getCurrentUser } from '../../apis/UserService';
 import Ionicons from 'react-native-vector-icons/AntDesign';
 import { deleteToken } from '../../utils/SecureStore';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Account = () => {
     const [user, setUser] = useState({});
@@ -20,6 +21,8 @@ const Account = () => {
 
     const logout = () => {
         deleteToken();
+        setUser({});
+        AsyncStorage.clear();
         navigation.navigate("Login");
     }
 

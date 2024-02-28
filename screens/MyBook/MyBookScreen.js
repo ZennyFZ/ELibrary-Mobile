@@ -3,22 +3,23 @@ import styles from "./Style";
 import { getBooks } from "../../apis/UserService";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { retrieveData } from "../../utils/AsyncStorage";
 
 const MyBook = () => {
     const [books, setBooks] = useState([]);
     const navigation = useNavigation();
-    const userId = AsyncStorage.getItem("userId");
 
-    const getUserBooks = async() => {
+    const getUserBooks = async () => {
         try {
             const id = await retrieveData("userId");
             const booksResponse = await getBooks(id);
+            if (booksResponse.data.bookList) {
+                setBooks(booksResponse.data.bookList);
+            }
             setBooks(booksResponse.data.bookList);
-          } catch (error) {
+        } catch (error) {
             console.log(error);
-          }
+        }
     }
 
     const goToBookViewer = (bookFileUrl) => {
@@ -33,7 +34,7 @@ const MyBook = () => {
     return (
         <View style={{ flex: 1 }}>
             <Text style={styles.myBookTitle}>My Books</Text>
-            <FlatList
+            {books.length > 0 ? (<FlatList
                 data={books}
                 numColumns={2}
                 renderItem={({ item }) => {
@@ -50,7 +51,11 @@ const MyBook = () => {
                     )
                 }}
                 keyExtractor={item => item._id}
-            />
+            />) : (
+                <View style={styles.noBook}>
+                    <Text style={styles.noBookText}>Empty Library</Text>
+                </View>
+            )}
         </View>
     );
 }

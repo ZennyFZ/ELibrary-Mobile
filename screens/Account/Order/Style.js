@@ -63,11 +63,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     orderDetailHeader: {
-        flexDirection: "row",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         padding: 10,
         height: 180,
+        width: windowWidth,
     },
     goBackDetail: {
         position: "absolute",
@@ -122,27 +123,68 @@ const styles = StyleSheet.create({
         color: "#2ECC71",
     },
     orderDetailItemBox: {
+        flex: 1,
         flexDirection: "column",
-        backgroundColor: "#fff",
+        backgroundColor: "white",
         width: windowWidth,
-        marginTop: 10,
-        borderRadius: 10,
+        height: windowHeight,
+        marginTop: -40,
+        zIndex: -1,
+        marginBottom: -10,
+    },
+    orderDetailItemBoxTitle: {
+        marginTop: 80,
+        fontSize: 30,
+        fontWeight: "bold",
+        padding: 40,
+    },
+    orderDetailItemBoxContent: {
+        flexDirection: "row",
+        padding: 10,
     },
     orderDetailItemImage: {
         width: windowWidth / 3,
         height: windowHeight / 4,
     },
+    orderDetailItemContent: {
+        padding: 10,
+    },
     orderDetailItemTitle: {
         fontSize: 20,
         fontWeight: "bold",
-        textAlign: "center",
+    },
+    orderDetailItemAuthor: {
+        fontSize: 20,
+        color: "grey",
     },
     orderDetailItemPrice: {
         fontSize: 20,
         fontWeight: "bold",
-        textAlign: "center",
-        color: "#2ECC71",
+        color: "#1435C9",
     },
+    orderDetailItemTotalContainer: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+    },
+    orderDetailItemTotalTitle: {
+        fontSize: 25,
+        fontWeight: "bold",
+    },
+    orderDetailItemTotal: {
+        fontSize: 25,
+        fontWeight: "bold",
+        color: "#1435C9",
+    },
+    emptyOrder: {
+        display: 'flex',
+        height: windowHeight,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    emptyOrderText: {
+        fontSize: 30,
+        fontWeight: 'bold',
+    }
 })
 
 export default styles;

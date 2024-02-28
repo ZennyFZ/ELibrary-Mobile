@@ -1,7 +1,7 @@
 import { Alert, Button, FlatList, Image, Text, View } from "react-native";
 import styles from "./Style";
 import { removeFromCart, clearCart } from "../../redux/CartReducer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { retrieveData } from "../../utils/AsyncStorage";
 import { useEffect, useState } from "react";
 

@@ -26,7 +26,7 @@ const OrderDetailScreen = ({ route }) => {
     return (
         <View style={styles.orderDetailContainer}>
             <View style={styles.orderDetailHeader}>
-                <TouchableOpacity onPress={() => navigation.navigate("Account")} style={styles.goBackDetail}>
+                <TouchableOpacity onPress={() => navigation.navigate("Order")} style={styles.goBackDetail}>
                     <Ionicons name="arrow-left" size={30} color="white" />
                 </TouchableOpacity>
                 <Text style={styles.headerTitleDetail}>Order Detail</Text>
@@ -35,18 +35,29 @@ const OrderDetailScreen = ({ route }) => {
                 <Text style={styles.orderDetailIDDateBoxTitle}>Order ID: {orderId}</Text>
                 <Text style={styles.orderDetailIDDateBoxSubTitle}>{new Date(orderDate).toDateString()}</Text>
             </View>
-            <FlatList
-                contentContainerStyle={styles.orderDetailItemBox}
-                data={books}
-                renderItem={({ item }) => (
-                    <View>
-                        <Image source={{ uri: item.image }} style={styles.orderDetailItemImage} />
-                        <Text style={styles.orderDetailItemTitle}>{item.title}</Text>
-                        <Text style={styles.orderDetailItemPrice}>{item.price}đ</Text>
-                    </View>
-                )}
-                keyExtractor={(item) => item._id}
-            />
+            <View style={styles.orderDetailItemBox} >
+                <Text style={styles.orderDetailItemBoxTitle}>Items</Text>
+                <FlatList
+                    data={books}
+                    renderItem={({ item }) => {
+                        return (
+                            <View style={styles.orderDetailItemBoxContent}>
+                                <Image source={{ uri: item.image }} style={styles.orderDetailItemImage} />
+                                <View style={styles.orderDetailItemContent}>
+                                    <Text style={styles.orderDetailItemTitle} numberOfLines={1} ellipsizeMode="tail">{item.title}</Text>
+                                    <Text style={styles.orderDetailItemAuthor}>{item.author}</Text>
+                                    <Text style={styles.orderDetailItemPrice}>${item.price}</Text>
+                                </View>
+                            </View>
+                        )
+                    }}
+                    keyExtractor={item => item._id}
+                />
+                <View style={styles.orderDetailItemTotalContainer}>
+                    <Text style={styles.orderDetailItemTotalTitle}>Total: </Text>
+                    <Text style={styles.orderDetailItemTotal}>{books.reduce((acc, book) => acc + book.price, 0)}đ</Text>
+                </View>
+            </View>
         </View> 
     )
 }
