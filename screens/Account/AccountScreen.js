@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import styles from "./Style";
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { getCurrentUser } from '../../apis/UserService';
 import Ionicons from 'react-native-vector-icons/AntDesign';
 import { deleteToken } from '../../utils/SecureStore';
@@ -40,6 +40,7 @@ const Account = () => {
                 <View style={styles.cardText}>
                     <Text style={styles.cardTitle}>{user.name}</Text>
                     <Text style={styles.cardEmail}>{user.email}</Text>
+                    <Text style={styles.cardPhone}>{user.phone}</Text>
                 </View>
                 <TouchableOpacity style={styles.editIcon} onPress={() => navigation.navigate("EditProfile", {userData: user})}>
                     <Ionicons name="edit" size={30} color="#E67E22" />

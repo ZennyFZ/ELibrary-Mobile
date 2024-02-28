@@ -47,6 +47,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: 'gray'
     },
+    cardPhone: {
+        fontSize: 15,
+        color: 'gray'
+    },
     editIcon: {
         position: 'absolute',
         right: 10,
