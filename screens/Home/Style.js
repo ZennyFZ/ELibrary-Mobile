@@ -47,8 +47,9 @@ const styles = StyleSheet.create({
         width: windowWidth,
         height: "auto",
         backgroundColor: "#F3F4F6",
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+
     },
     allBookTitle: {
         fontSize: 20,
@@ -69,11 +70,12 @@ const styles = StyleSheet.create({
         height: 'auto',
         backgroundColor: "white",
         margin: 10,
-        marginTop: 40,
+        marginTop: 20,
         borderRadius: 10,
         padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 30,
 
     },
     bookCardContent: {

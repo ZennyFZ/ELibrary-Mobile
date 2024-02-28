@@ -1,11 +1,29 @@
-import { View, Image, StatusBar, TextInput, Text, TouchableOpacity } from "react-native"
+import { View, Image, StatusBar, TextInput, Text, TouchableOpacity, Alert } from "react-native"
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native'
 import styles from './Style'
+import { useState } from "react";
+import { registerAccount } from "../../apis/UserService";
 
 const RegisterScreen = () => {
     const navigation = useNavigation();
-    
+    const [email, setEmail] = useState();
+    const [password, setPassword] = useState();
+    const [confirmPassword, setConfirmPassword] = useState();
+
+    const handleRegister = () => {
+        if (password !== confirmPassword) {
+            Alert.alert("Passwords do not match");
+            return;
+        }
+        registerAccount(email, password).then((response) => {
+            Alert.alert("Account created successfully");
+            navigation.navigate('Login');
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
     return (
         <View style={styles.container}>
             <StatusBar barStyle="light-content" />
@@ -24,19 +42,19 @@ const RegisterScreen = () => {
 
                 <View style={styles.form}>
                     <Animated.View entering={FadeInDown.duration(1000).springify()} style={styles.textInput}>
-                        <TextInput placeholder='Email' placeholderTextColor={'gray'} />
+                        <TextInput placeholder='Email' value={email} onChangeText={setEmail} placeholderTextColor={'gray'} />
                     </Animated.View>
 
                     <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} style={styles.textInput}>
-                        <TextInput placeholder='Password' placeholderTextColor={'gray'} secureTextEntry />
+                        <TextInput placeholder='Password' value={password} onChangeText={setPassword} placeholderTextColor={'gray'} secureTextEntry />
                     </Animated.View>
 
                     <Animated.View entering={FadeInDown.delay(300).duration(1000).springify()} style={styles.textInput}>
-                        <TextInput placeholder='Confirm Password' placeholderTextColor={'gray'} secureTextEntry />
+                        <TextInput placeholder='Confirm Password' value={confirmPassword} onChangeText={setConfirmPassword} placeholderTextColor={'gray'} secureTextEntry />
                     </Animated.View>
 
                     <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()}>
-                        <TouchableOpacity style={styles.loginButton}>
+                        <TouchableOpacity style={styles.loginButton} onPress={() => { handleRegister() }}>
                             <Text style={styles.loginButtonText}>Register</Text>
                         </TouchableOpacity>
                     </Animated.View>
