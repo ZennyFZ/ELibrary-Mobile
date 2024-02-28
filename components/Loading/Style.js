@@ -17,7 +17,11 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         marginBottom: 20
-    }
+    },
+    horizontal: {
+        flexDirection: 'row',
+        padding: 10,
+    },
 });
 
 export default styles;

@@ -1,24 +1,37 @@
-import { View, Image, StatusBar, TextInput, Text, TouchableOpacity } from "react-native"
+import { View, Image, StatusBar, TextInput, Text, TouchableOpacity, Alert } from "react-native"
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native'
 import styles from './Style'
-import {loginAccount} from '../../apis/UserService'
-import { useState } from "react";
+import { loginAccount } from '../../apis/UserService'
+import { useEffect, useState } from "react";
 import { saveToken } from '../../utils/SecureStore'
+import { Loading2 } from "../../components/Loading/Loading";
+import { storeData } from "../../utils/AsyncStorage";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
 
     const login = () => {
+        setIsLoading(true)
         loginAccount(email, password).then((res) => {
+            const userId = res.data.userId
             const jwtToken = res.data.token
             saveToken(jwtToken)
+            storeData("userId", userId)
+            setIsLoading(false)
             navigation.navigate('Home')
         }).catch((error) => {
+            setIsLoading(false)
+            Alert.alert('Error', 'Invalid email or password!')
             console.log(error)
         })
+    }
+
+    if (isLoading) {
+        return <Loading2 loadingText="Loading..." size="large" />
     }
 
     return (
