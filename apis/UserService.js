@@ -20,6 +20,11 @@ const getCurrentUser = async() => {
     return axios.get(`${USER_API_URL}/get-current-user`, { headers: { Cookie: `jwt=${token}` } })
 }
 
+const updateProfile = async(name, email, dob, phone) => {
+    const token = await getToken();
+    return axios.put(`${USER_API_URL}/update-profile`, { name, email, dob, phone }, { headers: { Cookie: `jwt=${token}` } });
+}
+
 const logout = () => {
     return axios.get(`${USER_API_URL}/logout`)
 }
@@ -36,4 +41,4 @@ const getBooks = async(userId) => {
     return axios.get(`${USER_API_URL}/get-books/${userId}`, { headers: { Cookie: `jwt=${token}` } });
 }
 
-export { loginAccount, getCurrentUser, registerAccount, logout, getBooks }
+export { loginAccount, getCurrentUser, updateProfile, registerAccount, logout, getBooks }
