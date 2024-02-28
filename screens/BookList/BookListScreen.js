@@ -38,7 +38,7 @@ const BookListScreen = () => {
                         <TouchableOpacity key={item._id} onPress={() => goToBookDetail(item)}>
                             <View style={styles.bookCard}>
                                 <View style={styles.bookCardContent}>
-                                    <Image source={{ uri: item.image }} style={{ width: 280, height: 300 }} />
+                                    <Image source={{ uri: item.image }} style={{ width: 200, height: 300 }} />
                                     <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{item.title}</Text>
                                     <Text style={styles.bookCardAuthor}>{item.author}</Text>
                                     <Text style={styles.bookCardPrice}>{item.price}đ</Text>

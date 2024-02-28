@@ -34,7 +34,7 @@ const CategoryDetailScreen = ({ route }) => {
     );
 
     return (
-        <View>
+        <View style={{ flex: 1 }}>
             <CustomHeader prevScreen={"Category"} />
             <FlatList
                 data={books}

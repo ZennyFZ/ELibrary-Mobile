@@ -27,6 +27,16 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    bookContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginTop: 30,
+        width: windowWidth,
+        height: "auto",
+        backgroundColor: "#F3F4F6",
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+    },
     bookCard: {
         width: windowWidth / 2.2,
         height: "auto",

@@ -32,8 +32,8 @@ const Category = () => {
             <FlatList
                 contentContainerStyle={styles.categoryBox}
                 data={categories}
-                // numColumns={5}
-                horizontal={false}
+                numColumns={3}
+                // horizontal={false}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({ item }) => (
                     <View style={styles.categoryItem}>
