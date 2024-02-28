@@ -14,7 +14,9 @@ const OrderScreen = () => {
         try {
             const userId = await retrieveData("userId");
             const orderData = await getOrderByUserId(userId)
-            setOrders(orderData.data);
+            if (orderData) {
+                setOrders(orderData.data);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -32,24 +34,31 @@ const OrderScreen = () => {
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>Orders</Text>
             </View>
-            <FlatList
-                data={orders}
-                renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => navigation.navigate("OrderDetail", { orderId: item._id, orderDate: item.orderDate })}>
-                        <View style={styles.orderContainer}>
-                            <View style={styles.orderIDDateBox}>
-                                <Text style={styles.orderId}>Order#: {item._id}</Text>
-                                <Text style={styles.orderDate}>Date: {item.createdAt.split('T')[0]}</Text>
+            {orders.length > 0 ? (
+                <FlatList
+                    data={orders}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity onPress={() => navigation.navigate("OrderDetail", { orderId: item._id, orderDate: item.orderDate })}>
+                            <View style={styles.orderContainer}>
+                                <View style={styles.orderIDDateBox}>
+                                    <Text style={styles.orderId}>Order#: {item._id}</Text>
+                                    <Text style={styles.orderDate}>Date: {item.createdAt.split('T')[0]}</Text>
+                                </View>
+                                <View style={styles.orderPricePaymentBox}>
+                                    <Text style={styles.orderPrice}>{item.totalPrice}đ</Text>
+                                    <Text style={styles.orderPayment}>Payment: {item.paymentMethod}</Text>
+                                </View>
                             </View>
-                            <View style={styles.orderPricePaymentBox}>
-                                <Text style={styles.orderPrice}>{item.totalPrice}đ</Text>
-                                <Text style={styles.orderPayment}>Payment: {item.paymentMethod}</Text>
-                            </View>
-                        </View>
-                    </TouchableOpacity>
-                )}
-                keyExtractor={(item) => item._id}
-            />
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(item) => item._id}
+                />
+            ) : (
+                <View style={styles.emptyOrder}>
+                    <Text style={styles.emptyOrderText}>Please buy something</Text>
+                    <Text style={[styles.emptyOrderText, { marginTop: 30 }]}>{`(╯°□°）╯︵ ┻━┻`}</Text>
+                </View>
+            )}
         </View>
     );
 }

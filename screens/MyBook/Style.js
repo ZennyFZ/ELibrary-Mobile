@@ -64,6 +64,16 @@ const styles = StyleSheet.create({
         flex:1,
         width:Dimensions.get('window').width,
         height:Dimensions.get('window').height,
+    },
+    noBook: {
+        display: 'flex',
+        height: windowHeight,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    noBookText: {
+        fontSize: 30,
+        fontWeight: 'bold',
     }
 })
 

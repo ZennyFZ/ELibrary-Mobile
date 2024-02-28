@@ -33,12 +33,6 @@ const CategoryDetailScreen = ({ route }) => {
         }, [categoryName])
     );
 
-    if (loading) {
-        return (
-            <Loading />
-        )
-    }
-
     return (
         <View>
             <CustomHeader prevScreen={"Category"} />

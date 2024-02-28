@@ -25,7 +25,9 @@ const HomeScreen = () => {
       const id = await retrieveData("userId");
 
       const suggestedBooksResponse = await suggestBookForUser(id);
-      setSuggestedBooks(suggestedBooksResponse.data.bookList);
+      if (suggestedBooksResponse.data.bookList) {
+        setSuggestedBooks(suggestedBooksResponse.data.bookList);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -95,33 +97,36 @@ const HomeScreen = () => {
             </ScrollView>
 
             {/* Suggested books */}
-            <View>
+            {suggestedBooks.length > 0 && (
               <View>
-                <Text style={{ fontSize: 20, fontWeight: "bold", marginLeft: 20, marginTop: 20 }}>Suggested Books</Text>
-              </View>
-              <ScrollView
-                horizontal={true}
-                showsHorizontalScrollIndicator={false}
-              >
-                {suggestedBooks.slice(0, 6).map(book => {
-                  return (
-                    <View key={book._id}>
-                      <View style={styles.bookCard}>
-                        <Image source={{ uri: book.image }} style={{ width: 200, height: 300 }} />
-                        <View style={styles.bookCardContent}>
-                          <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{book.title}</Text>
-                          <Text style={styles.bookCardAuthor}>{book.author}</Text>
-                          <Text style={styles.bookCardPrice}>{book.price} VND</Text>
-                          <TouchableOpacity style={styles.bookCardButton}>
-                            <Text style={styles.bookCardButtonText}>Add To Cart</Text>
-                          </TouchableOpacity>
+                <View>
+                  <Text style={{ fontSize: 20, fontWeight: "bold", marginLeft: 20, marginTop: 20 }}>Suggested Books</Text>
+                </View>
+                <ScrollView
+                  horizontal={true}
+                  showsHorizontalScrollIndicator={false}
+                >
+                  {suggestedBooks.slice(0, 6).map(book => {
+                    return (
+                      <View key={book._id}>
+                        <View style={styles.bookCard}>
+                          <Image source={{ uri: book.image }} style={{ width: 200, height: 300 }} />
+                          <View style={styles.bookCardContent}>
+                            <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{book.title}</Text>
+                            <Text style={styles.bookCardAuthor}>{book.author}</Text>
+                            <Text style={styles.bookCardPrice}>{book.price} VND</Text>
+                            <TouchableOpacity style={styles.bookCardButton}>
+                              <Text style={styles.bookCardButtonText}>Add To Cart</Text>
+                            </TouchableOpacity>
+                          </View>
                         </View>
                       </View>
-                    </View>
-                  );
-                })}
-              </ScrollView>
-            </View>
+                    );
+                  })}
+                </ScrollView>
+              </View>
+            )
+            }
           </View>
 
         </View>
