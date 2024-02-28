@@ -5,7 +5,7 @@ import CustomHeader from "../../components/CustomHeader/CustomHeader";
 import { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import {Loading} from "../../components/Loading/Loading";
+import { Loading } from "../../components/Loading/Loading";
 
 const SearchScreen = ({ route }) => {
     const navigation = useNavigation();
@@ -43,7 +43,7 @@ const SearchScreen = ({ route }) => {
         <View style={{ flex: 1 }}>
             <CustomHeader prevScreen={"Home"} />
             <Text style={styles.searchResultText}>
-                {keyword? `Search result for "${keyword}"` : "Search result for all books"}
+                {keyword ? `Search result for "${keyword}"` : "Search result for all books"}
             </Text>
             <FlatList
                 data={books}
@@ -53,7 +53,7 @@ const SearchScreen = ({ route }) => {
                         <TouchableOpacity key={item._id} onPress={() => goToBookDetail(item)}>
                             <View style={styles.bookCard}>
                                 <View style={styles.bookCardContent}>
-                                    <Image source={{ uri: item.image }} style={{ width: 280, height: 300 }} />
+                                    <Image source={{ uri: item.image }} style={{ width: 200, height: 300 }} />
                                     <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{item.title}</Text>
                                     <Text style={styles.bookCardAuthor}>{item.author}</Text>
                                     <Text style={styles.bookCardPrice}>{item.price}đ</Text>

@@ -22,7 +22,7 @@ const OrderDetailScreen = ({ route }) => {
     useFocusEffect(
         useCallback(() => {
             getOrderDetailData()
-        }, [])
+        }, [books])
     )
 
     return (
@@ -60,7 +60,7 @@ const OrderDetailScreen = ({ route }) => {
                     <Text style={styles.orderDetailItemTotal}>{books.reduce((acc, book) => acc + book.price, 0)}đ</Text>
                 </View>
             </View>
-        </View> 
+        </View>
     )
 }
 

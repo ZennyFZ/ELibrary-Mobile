@@ -11,14 +11,14 @@ const styles = StyleSheet.create({
     },
     bookCard: {
         width: windowWidth / 2.2,
-        height: windowHeight / 2.5,
+        height: "auto",
         margin: 10,
         backgroundColor: "#fff",
         borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: {
-        width: 0,
-        height: 10,
+            width: 0,
+            height: 10,
         },
         shadowOpacity: 0.12,
         shadowRadius: 20,
