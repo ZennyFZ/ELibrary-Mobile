@@ -3,11 +3,19 @@ import { Image, ScrollView, TouchableOpacity } from 'react-native';
 import { View, Text } from 'react-native';
 import styles from './Style';
 import CustomeHeader from '../../components/CustomHeader/CustomHeader'
+import { addToCart } from '../../redux/CartReducer';
+import { useDispatch } from 'react-redux';
+
 const BookDetail = ({ route }) => {
     const navigation = useNavigation();
     const bookData = route.params.book;
     const prevScreen = route.params.prevScreen;
     const category = route.params.category;
+    const dispatch = useDispatch();
+
+    const addToCartHandler = (book) => {
+        dispatch(addToCart(book));
+    }
 
     return (
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -19,10 +27,10 @@ const BookDetail = ({ route }) => {
 
                     <View style={styles.overviewDetailBox}>
                         <View style={styles.priceAndCartBox}>
-                        <Text style={styles.overviewDetailPrice}>{bookData.price}đ</Text>
-                        <TouchableOpacity style={styles.addToCartButton}>
-                            <Text style={styles.addToCartButtonText}>Add to cart</Text>
-                        </TouchableOpacity>
+                            <Text style={styles.overviewDetailPrice}>{bookData.price}đ</Text>
+                            <TouchableOpacity style={styles.addToCartButton} onPress={() => addToCartHandler(bookData)}>
+                                <Text style={styles.addToCartButtonText}>Add to cart</Text>
+                            </TouchableOpacity>
                         </View>
                         <Text style={styles.overviewDetailTitle}>{bookData.title}</Text>
                         <Text style={styles.overviewDetailAuthor}>Author: {bookData.author}</Text>

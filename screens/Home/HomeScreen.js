@@ -119,7 +119,7 @@ const HomeScreen = () => {
                             <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{book.title}</Text>
                             <Text style={styles.bookCardAuthor}>{book.author}</Text>
                             <Text style={styles.bookCardPrice}>{book.price} VND</Text>
-                            <TouchableOpacity style={styles.bookCardButton}>
+                            <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(book)}>
                               <Text style={styles.bookCardButtonText}>Add To Cart</Text>
                             </TouchableOpacity>
                           </View>

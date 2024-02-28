@@ -6,11 +6,14 @@ import { useFocusEffect } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
 import CustomHeader from "../../components/CustomHeader/CustomHeader";
 import Loading from "../../components/Loading/Loading";
+import { addToCart } from "../../redux/CartReducer";
+import { useDispatch } from "react-redux";
 
 const CategoryDetailScreen = ({ route }) => {
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState("");
     const navigation = useNavigation();
+    const dispatch = useDispatch();
     let categoryName = route.params.category;
 
     const getBooksByCategory = () => {
@@ -25,6 +28,10 @@ const CategoryDetailScreen = ({ route }) => {
 
     const goToBookDetail = (book) => {
         navigation.navigate("BookDetail", { prevScreen: "CategoryDetail", category: book.category.name, book: book })
+    }
+
+    const addToCartHandler = (book) => {
+        dispatch(addToCart(book));
     }
 
     useFocusEffect(
@@ -49,7 +56,7 @@ const CategoryDetailScreen = ({ route }) => {
                                     <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{item.title}</Text>
                                     <Text style={styles.bookCardAuthor}>{item.author}</Text>
                                     <Text style={styles.bookCardPrice}>{item.price}đ</Text>
-                                    <TouchableOpacity style={styles.bookCardButton}>
+                                    <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(item)}>
                                         <Text style={styles.bookCardButtonText}>Add To Cart</Text>
                                     </TouchableOpacity>
                                 </View>

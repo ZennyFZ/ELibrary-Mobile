@@ -6,13 +6,15 @@ import { useCallback, useEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { Loading } from "../../components/Loading/Loading";
+import { addToCart } from "../../redux/CartReducer";
+import { useDispatch } from "react-redux";
 
 const SearchScreen = ({ route }) => {
     const navigation = useNavigation();
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState("");
     const keyword = route.params.searchText;
-
+    const dispatch = useDispatch();
     const search = () => {
         setLoading(true);
         searchBook(keyword).then((res) => {
@@ -33,6 +35,9 @@ const SearchScreen = ({ route }) => {
         }, [keyword])
     )
 
+    const addToCartHandler = (book) => {
+        dispatch(addToCart(book));
+    }
     if (loading) {
         return (
             <Loading />
@@ -57,7 +62,7 @@ const SearchScreen = ({ route }) => {
                                     <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{item.title}</Text>
                                     <Text style={styles.bookCardAuthor}>{item.author}</Text>
                                     <Text style={styles.bookCardPrice}>{item.price}đ</Text>
-                                    <TouchableOpacity style={styles.bookCardButton}>
+                                    <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(item)}>
                                         <Text style={styles.bookCardButtonText}>Add To Cart</Text>
                                     </TouchableOpacity>
                                 </View>
