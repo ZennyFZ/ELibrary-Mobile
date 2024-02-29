@@ -5,7 +5,8 @@ import { useDispatch } from "react-redux";
 import { retrieveData } from "../../utils/AsyncStorage";
 import { useEffect, useState } from "react";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { useFocusEffect } from "@react-navigation/native";
+import React from "react";
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
 
@@ -33,9 +34,14 @@ const Cart = () => {
         return cartItems;
     }
 
-    useEffect(() => {
-        getCartItems();
-    }, [cartItems]);
+    // useEffect(() => {
+    //     getCartItems();
+    // }, [cartItems]);
+    useFocusEffect(
+        React.useCallback(() => {
+            getCartItems()
+        },[cartItems])
+    );
 
     const renderCartItem = ({ item }) => (
         <View style={styles.cartItem} key={item._id}>
