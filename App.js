@@ -16,6 +16,7 @@ import RegisterScreen from './screens/Register/RegisterScreen';
 import HomeScreen from './screens/Home/HomeScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import PaymentScreen from './screens/Payment/PaymentScreen'
+import CheckoutScreen from './screens/Payment/CheckoutScreen';
 import AccountScreen from './screens/Account/AccountScreen';
 import OrderScreen from './screens/Account/Order/OrderScreen';
 import EditProfileScreen from './screens/Account/EditProfile/EditProfileScreen';
@@ -72,6 +73,7 @@ export default function App() {
             <Tab.Screen name="Register" component={RegisterScreen} options={tabOptions} />
             <Tab.Screen name="Welcome" component={WelcomeScreen} options={tabOptions} />
             <Tab.Screen name="Payment" component={PaymentScreen} options={tabOptions} />
+            <Tab.Screen name="Checkout" component={CheckoutScreen} options={tabOptions} />
             <Tab.Screen name="BookList" component={BookListScreen} options={tabOptions} />
             <Tab.Screen name="BookDetail" component={BookDetail} options={tabOptions} />
             <Tab.Screen name="CategoryDetail" component={CategoryDetailScreen} options={tabOptions} />

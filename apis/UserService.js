@@ -49,4 +49,9 @@ const changePassword = async (oldPassword, newPassword) => {
     }, { headers: { Cookie: `jwt=${token}` } })
 }
 
-export { loginAccount, getCurrentUser, updateProfile, registerAccount, changePassword, logout, getBooks }
+const writeOrderLog = async (log) => {
+    const token = await getToken();
+    return axios.post(`${USER_API_URL}/write-log`, {log}, { headers: { Cookie: `jwt=${token}` } })
+}
+
+export { loginAccount, getCurrentUser, updateProfile, registerAccount, changePassword, logout, getBooks, writeOrderLog }
