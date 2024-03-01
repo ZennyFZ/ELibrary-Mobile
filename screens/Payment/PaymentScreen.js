@@ -1,70 +1,159 @@
-import { usePlatformPay } from '@stripe/stripe-react-native';
-import { useEffect, useState } from 'react';
-import { getStripeSecret, getVNPayUrl } from '../../apis/PaymentService';
-import { Alert, Text, TouchableOpacity, View } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
+import { getMomoUrl, getVNPayUrl, getVietQRUrl, getZaloPayUrl } from '../../apis/PaymentService';
+import { Alert, Button, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {Loading2} from '../../components/Loading/Loading';
+import styles from './Style';
+import { useSelector } from 'react-redux';
+import { retrieveData } from '../../utils/AsyncStorage';
 
 const PaymentScreen = () => {
-    const [stripeSecret, setStripeSecret] = useState('');
-    const { isPlatformPaySupported, confirmPlatformPayPayment } = usePlatformPay();
+    const [cart, setCart] = useState([]);
+    const [userId, setUserId] = useState("");
+    const totalAmount = cart.reduce((total, item) => total + item.price, 0);
+    const [isLoading, setIsLoading] = useState(false);
+    const paymentMethodArray = [
+        {
+            id: 1,
+            name: "VNPay",
+            logo: require('../../assets/VNPay.png')
+        },
+        {
+            id: 2,
+            name: "Momo",
+            logo: require('../../assets/Momo.png')
+        },
+        {
+            id: 3,
+            name: "ZaloPay",
+            logo: require('../../assets/ZaloPay.png')
+        },
+        {
+            id: 4,
+            name: "VietQR",
+            logo: require('../../assets/VietQR.jpg')
+        }
+    ]
+    const [selectedPayment, setSelectedPayment] = useState("");
+    const navigation = useNavigation();
 
-    const getStripeSecretData = () => {
-        getStripeSecret(100000).then((response) => {
-            console.log(response.data.clientSecret)
-            setStripeSecret(response.data.clientSecret)
-        }).catch((error) => {
-            console.log(error)
-        })
+    const getUserId = async () => {
+        const userId = await retrieveData('userId');
+        setUserId(userId);
     }
 
-    const checkGooglePaySupport = async () => {
-        if (!(await isPlatformPaySupported({ googlePay: { testEnv: true } }))) {
-            Alert.alert('Google Pay is not supported.');
-        }else{
-            getStripeSecretData()
-        }
-    }
-
-    useEffect(() => {
-        // checkGooglePaySupport()
-    }, [])
-
-    const handleGPayment = async () => {
-        const { error } = await confirmPlatformPayPayment(
-            stripeSecret,
-            {
-                googlePay: {
-                    testEnv: true,
-                    merchantName: 'ELibrary',
-                    merchantCountryCode: 'VN',
-                    currencyCode: 'VND',
-                }
-            }
-        );
-
-        if (error) {
-            Alert.alert(error.code, error.message);
-            // Update UI to prompt user to retry payment (and possibly another payment method)
-            return;
-        }
-        Alert.alert('Success', 'The payment was confirmed successfully.');
+    const getCartItems = async () => {
+        const cartItems = await retrieveData('cart');
+        setCart(cartItems);
     }
 
     const handleVNPPayment = () => {
-        getVNPayUrl(100000).then((res) => {
-            console.log(res.data)
+        getVNPayUrl(totalAmount).then((res) => {
+            setIsLoading(false);
+            navigation.navigate("Checkout", { link: res.data.vnpUrl, paymentMethod: "VNPay", totalAmount: totalAmount, userId: userId, cart: cart })
         }).catch((error) => {
             console.log(error)
         })
     }
 
+    const handleMomoPayment = () => {
+        getMomoUrl(totalAmount).then((res) => {
+            setIsLoading(false);
+            navigation.navigate("Checkout", { link: res.data.data, paymentMethod: "Momo", totalAmount: totalAmount, userId: userId, cart: cart })
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    const handleZaloPayPayment = () => {
+        getZaloPayUrl(totalAmount).then((res) => {
+            setIsLoading(false);
+            navigation.navigate("Checkout", { link: res.data.data.orderurl, paymentMethod: "ZaloPay", totalAmount: totalAmount, userId: userId, cart: cart})
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    const handleVietQRPayment = () => {
+        getVietQRUrl(totalAmount).then((res) => {
+            setIsLoading(false);
+            navigation.navigate("Checkout", { link: res.data.data, paymentMethod: "VietQR", transactionId: res.data.transactionId, totalAmount: totalAmount, userId: userId, cart: cart})
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    const getColor = (id) => {
+        if (id === selectedPayment) {
+            return "#2196f3";
+        }
+        return "white";
+    }
+
+    const handlePayment = (id) => {
+        if (id === "") {
+            Alert.alert("Please choose payment method");
+            return;
+        }
+        setIsLoading(true);
+        switch (id) {
+            case 1:
+                handleVNPPayment();
+                break;
+            case 2:
+                handleMomoPayment();
+                break;
+            case 3:
+                handleZaloPayPayment();
+                break;
+            case 4:
+                handleVietQRPayment();
+                break;
+        }
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            getCartItems();
+            getUserId();
+        }, [])
+    )
+
+    if (isLoading) {
+        return (
+            <Loading2 />
+        )
+    }
+
     return (
-        <View style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }} >
-            <TouchableOpacity onPress={() => handleGPayment()} >
-                <Text>Google Pay</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleVNPPayment()} style={{marginTop: 50}} >
-                <Text>VNPay</Text>
-            </TouchableOpacity>
+        <View style={styles.container}>
+            <View style={styles.paymentHeader}>
+                <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
+                    <Ionicons name="arrow-left" size={30} color="black" style={styles.goBack} />
+                </TouchableOpacity>
+            </View>
+            <Text style={styles.choosePaymentText}>Choose payment method</Text>
+            <FlatList
+                data={paymentMethodArray}
+                renderItem={({ item }) => {
+                    return (
+                        <View style={styles.paymentMethodContainer} >
+                            <TouchableOpacity onPress={() => setSelectedPayment(item.id)} style={[styles.paymentOption, { borderColor: getColor(item.id) }]}>
+                                <Image source={item.logo} style={styles.paymentIcon} />
+                                <Text style={styles.paymentOptionText}>{item.name}</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )
+                }}
+                keyExtractor={item => item.id}
+            />
+            <View style={styles.payContainer}>
+                <Text style={styles.payContainerText}>Total Money: {totalAmount}đ</Text>
+                <TouchableOpacity onPress={() => handlePayment(selectedPayment)}>
+                    <Text style={styles.payContainerButton}>Checkout</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }

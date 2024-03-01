@@ -4,9 +4,11 @@ import { removeFromCart, clearCart } from "../../redux/CartReducer";
 import { useDispatch } from "react-redux";
 import { retrieveData } from "../../utils/AsyncStorage";
 import { useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
+    const navigation = useNavigation();
 
     const dispatch = useDispatch();
 
@@ -19,7 +21,8 @@ const Cart = () => {
     }
 
     const onPay = () => {
-        Alert.alert('Payment', 'Payment feature is not available yet');
+        let totalAmount = calculateTotal(cartItems)
+        navigation.navigate('Payment', { totalAmount, cartItems });
     }
 
     const calculateTotal = (items) => {
