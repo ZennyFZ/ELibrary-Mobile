@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f5f5',
         padding: 20,
+        width: '100%',
+        height: '100%',
+        
     },
     cartBox: {
         flex: 1,
@@ -26,11 +29,16 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.8,
         shadowRadius: 2,
         marginBottom: 10,
+
     },
     productImage: {
-        width: 60,
-        height: 60,
-        marginRight: 20,
+        // width: 60,
+        // height: 60,
+        // marginRight: 20,
+        width: '80%',
+        height: '100%',
+        resizeMode: 'cover',
+        borderRadius: 10,
     },
     productInfo: {
         flex: 1,
@@ -78,6 +86,44 @@ const styles = StyleSheet.create({
     emptyCartText: {
         fontSize: 30,
         fontWeight: 'bold',
+    },
+    //pay button
+    card_addbtn:{
+        width: '86%',
+            height: '90%',
+            backgroundColor:"blue",
+            borderRadius: 20,
+            justifyContent: 'center',
+            alignItems: 'center',
+    },
+    text_addbtn: {
+        fontSize: 12,
+        fontWeight: '500',
+        letterSpacing: 1,
+        color: "white",
+        textTransform: 'uppercase',
+    },
+    //Text button
+    card_text_button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+      },
+      text_button: {
+        fontSize: 16,
+        lineHeight: 21,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: '#43a7e0',
+      },
+    //cart_header
+    cart_header: {
+        width: '100%',
+        flexDirection: 'row',
+        paddingTop: 16,
+        paddingHorizontal: 16,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10
     }
 })
 
