@@ -1,6 +1,6 @@
 import { StyleSheet, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import { useSelector } from "react-redux";
 const screenOptions = ({ route }) => ({
     headerShown: false,
     tabBarIcon: ({ focused, color, size }) => {
@@ -23,10 +23,11 @@ const screenOptions = ({ route }) => ({
                 break;
         }
         if (iconName === 'cart' || iconName === 'cart-outline') {
+            const cart = useSelector(state => state.cart);
             return (
                 <Text>
                     <Ionicons name={iconName} size={size} color={color} />
-                    <Text style={styles.cartBadge}>{0}</Text>
+                    <Text style={styles.cartBadge}>{cart.cart.length}</Text>
                 </Text>
             )
         } else {

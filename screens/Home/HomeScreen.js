@@ -1,4 +1,4 @@
-import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image, ScrollView, Text, Linking, TouchableOpacity, View } from "react-native";
 import styles from "./Style";
 import Ionicons from 'react-native-vector-icons/Fontisto';
 import { useCallback, useEffect, useState } from "react";
@@ -60,8 +60,9 @@ const HomeScreen = () => {
         <View style={styles.appLogocontainer}>
           <Image source={require("../../assets/elibrary.png")} style={styles.appLogo} />
           <Text style={styles.appTitle}>E-Library</Text>
-          <TouchableOpacity style={styles.messengerIcon}>
-            <Ionicons name="messenger" size={30} color="white" />
+          <TouchableOpacity style={styles.messengerIcon} onPress={()=> Linking.openURL("https://www.messenger.com/t/134868037215834")}>
+            <Ionicons name="messenger" size={30} color="white" >
+            </Ionicons>
           </TouchableOpacity>
         </View>
 
