@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Alert } from 'react-native';
+import { Alert, ToastAndroid } from 'react-native';
 import { storeData, retrieveData } from '../utils/AsyncStorage';
 
 export const getCartCountFromAsyncStorage = createAsyncThunk(
@@ -33,6 +33,7 @@ const cartSlice = createSlice({
             } else {
                 state.cart.push({ ...action.payload });
                 storeData('cart', state.cart);
+                ToastAndroid.show('Added to cart successfully', ToastAndroid.SHORT)
             }
         },
         removeFromCart: (state, action) => {
