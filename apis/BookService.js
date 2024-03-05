@@ -35,12 +35,12 @@ const addBook = async(title, author, publisher, publishDate, pages, language, pr
 
 const uploadBookImage = async(formData) => {
     const token = await getToken();
-    return axios.post(`${BOOK_API_URL}/upload-book-image`, formData, { headers: { 'Content-Type': 'multipart/form-data', 'Cookie': `jwt=${token}` }});
+    return axios.post(`${BOOK_API_URL}/upload-book-image`, formData, { headers: { 'Cookie': `jwt=${token}` }});
 }
 
 const uploadBookFile = async(formData) => {
     const token = await getToken();
-    return axios.post(`${BOOK_API_URL}/upload-book-file`, formData, { headers: { 'Content-Type': 'multipart/form-data', 'Cookie': `jwt=${token}` }});
+    return axios.post(`${BOOK_API_URL}/upload-book-file`, formData, { headers: { 'Cookie': `jwt=${token}` }});
 }
 
 const updateBook = async(id, title, author, publisher, publishDate, pages, language, price, image, description, category, file) => {
