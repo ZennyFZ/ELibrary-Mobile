@@ -10,8 +10,16 @@ const RegisterScreen = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
-
+    const regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const handleRegister = () => {
+        if (!regex.test(email)) {
+            Alert.alert("Invalid email format");
+            return;
+        }
+        if (!email || email.trim() === '') {
+            Alert.alert("Email cannot be empty or just spaces");
+            return;
+        }
         if (password !== confirmPassword) {
             Alert.alert("Passwords do not match");
             return;
@@ -20,6 +28,11 @@ const RegisterScreen = () => {
             Alert.alert("Account created successfully");
             navigation.navigate('Login');
         }).catch((error) => {
+            if (error.response && error.response.data && error.response.data.message) {
+                Alert.alert(error.response.data.message);
+            } else {
+                Alert.alert("An error occurred while creating account");
+            }
             console.log(error)
         })
     }
