@@ -1,10 +1,11 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import styles from "./Style";
 import { View, Text, TouchableOpacity, Image, Alert, Button } from "react-native";
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { checkPaidVietQR } from "../../apis/PaymentService";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import * as WebBrowser from 'expo-web-browser';
+import * as Linking from 'expo-linking';
 import { createOrder } from "../../apis/OrderService";
 import { writeOrderLog } from "../../apis/UserService";
 import {Loading2} from '../../components/Loading/Loading';
