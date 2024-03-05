@@ -35,15 +35,19 @@ import AdminScreen from './screens/Admin/AdminScreen';
 import { getCurrentUser } from './apis/UserService';
 import { screenOptions, tabOptions } from './utils/TabSetting';
 import OrderDetailScreen from './screens/Account/Order/OrderDetailScreen';
+import BookDetailManage from './screens/Admin/BookManage/BookDetailManage';
+import ViewBookScreen from './screens/Admin/BookManage/ViewBookScreen';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [initialRoute, setInitialRoute] = useState("")
+  const [isAdmin, setIsAdmin]= useState(false)
 
   const getInitialRoute = () => {
     getCurrentUser().then((res) => {
       if (res.status === 200) {
+        res.data.user.role === "admin"? setIsAdmin(true) : setIsAdmin(false)
         storeData("userId", res.data.user._id)
         setInitialRoute("Home")
       } else {
@@ -88,6 +92,9 @@ export default function App() {
             <Tab.Screen name="Cart" component={CartScreen} />
             <Tab.Screen name="MyBook" component={MyBookScreen} />
             <Tab.Screen name="Account" component={AccountScreen} />
+            {isAdmin && <Tab.Screen name="Manage" component={AdminScreen} options={{ tabBarStyle: { display: 'none' }}}/>}
+            <Tab.Screen name="BookDetailManage" component={BookDetailManage} options={{unmountOnBlur: true, tabBarButton: () => null, tabBarStyle: { display: 'none' },}} />
+            <Tab.Screen name="ViewBookScreen" component={ViewBookScreen} options={{unmountOnBlur: true, tabBarButton: () => null, tabBarStyle: { display: 'none' },}} />
           </Tab.Navigator>
         </NavigationContainer>
       </Provider>
