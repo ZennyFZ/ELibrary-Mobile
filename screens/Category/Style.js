@@ -58,6 +58,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         padding: 10,
     },
+    bookCardContent_skeleton: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
     bookCardtitle: {
         fontSize: 18,
         fontWeight: "bold",
@@ -76,6 +81,12 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
         marginTop: 10,
+    },
+    skeleton_btn: {
+        padding: 10,
+        borderRadius: 5,
+        marginTop: 10,
+        height:40
     },
     bookCardButtonText: {
         color: "#fff",
