@@ -8,10 +8,11 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-
+import { Loading } from "../../components/Loading/Loading";
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState(false)
 
     const dispatch = useDispatch();
 
@@ -33,19 +34,33 @@ const Cart = () => {
     }
 
     const getCartItems = async () => {
+        setIsLoading(true)
         const cartItems = await retrieveData('cart');
-        setCartItems(cartItems);
-        return cartItems;
+        if(cartItems) {
+            setIsLoading(false)
+            setCartItems(cartItems);
+            return cartItems;
+        }
     }
 
-    // useEffect(() => {
-    //     getCartItems();
-    // }, [cartItems]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            getCartItems()
+        },[])
+    );
+
     useFocusEffect(
         React.useCallback(() => {
             getCartItems()
         },[cartItems])
     );
+
+    if (isLoading) {
+        <Loading />
+    }
+
+
 
     const renderCartItem = ({ item }) => (
         <View style={styles.cartItem} key={item._id}>
