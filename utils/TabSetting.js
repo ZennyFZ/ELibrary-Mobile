@@ -21,6 +21,9 @@ const screenOptions = ({ route }) => ({
             case 'Account':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
+            case 'Manage':
+                iconName = focused ? 'settings' : 'settings-outline';
+                break;
         }
         if (iconName === 'cart' || iconName === 'cart-outline') {
             const cart = useSelector(state => state.cart);
