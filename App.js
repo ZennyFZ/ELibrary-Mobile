@@ -3,9 +3,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import { useEffect, useState } from 'react';
-import { storeData } from './utils/AsyncStorage';
-import { Provider } from 'react-redux';
-import cartStore from './redux/store';
 
 // Custom Components
 import {Loading} from './components/Loading/Loading';
@@ -30,24 +27,25 @@ import BookListScreen from './screens/BookList/BookListScreen';
 import SearchScreen from './screens/Search/SearchScreen';
 import BookViewerScreen from './screens/MyBook/BookViewerScreen';
 import AdminScreen from './screens/Admin/AdminScreen';
-
-// APIs and Utils
-import { getCurrentUser } from './apis/UserService';
-import { screenOptions, tabOptions } from './utils/TabSetting';
 import OrderDetailScreen from './screens/Account/Order/OrderDetailScreen';
 import BookDetailManage from './screens/Admin/BookManage/BookDetailManage';
 import ViewBookScreen from './screens/Admin/BookManage/ViewBookScreen';
 
+// APIs and Utils
+import { getCurrentUser } from './apis/UserService';
+import { adminTabOptions, screenOptions, tabOptions } from './utils/TabSetting';
+import { storeData } from './utils/AsyncStorage';
+import { Provider } from 'react-redux';
+import cartStore from './redux/store';
+
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  const [initialRoute, setInitialRoute] = useState("")
-  const [isAdmin, setIsAdmin]= useState(false)
+  const [initialRoute, setInitialRoute] = useState("");
 
   const getInitialRoute = () => {
     getCurrentUser().then((res) => {
       if (res.status === 200) {
-        res.data.user.role === "admin"? setIsAdmin(true) : setIsAdmin(false)
         storeData("userId", res.data.user._id)
         setInitialRoute("Home")
       } else {
@@ -92,7 +90,7 @@ export default function App() {
             <Tab.Screen name="Cart" component={CartScreen} />
             <Tab.Screen name="MyBook" component={MyBookScreen} />
             <Tab.Screen name="Account" component={AccountScreen} />
-            {isAdmin && <Tab.Screen name="Manage" component={AdminScreen} options={{ tabBarStyle: { display: 'none' }}}/>}
+            <Tab.Screen name="Manage" component={AdminScreen} options={adminTabOptions} />
             <Tab.Screen name="BookDetailManage" component={BookDetailManage} options={{unmountOnBlur: true, tabBarButton: () => null, tabBarStyle: { display: 'none' },}} />
             <Tab.Screen name="ViewBookScreen" component={ViewBookScreen} options={{unmountOnBlur: true, tabBarButton: () => null, tabBarStyle: { display: 'none' },}} />
           </Tab.Navigator>

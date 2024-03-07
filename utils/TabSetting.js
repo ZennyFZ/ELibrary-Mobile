@@ -1,3 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity, View } from 'react-native';
 import { StyleSheet, Text } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useSelector } from "react-redux";
@@ -33,18 +35,40 @@ const screenOptions = ({ route }) => ({
                     <Text style={styles.cartBadge}>{cart.cart.length}</Text>
                 </Text>
             )
-        } else {
-            return <Ionicons name={iconName} size={size} color={color} />;
         }
+        return <Ionicons name={iconName} size={size} color={color} />
     },
     tabBarActiveTintColor: '#92B4D3',
     tabBarInactiveTintColor: 'gray',
 })
 
 const tabOptions = {
-    tabBarButton: () => null,
-    tabBarStyle: { display: 'none' },
+    tabBarButton: () => { return null },
+    tabBarStyle: {
+        display: 'none'
+    }
 }
+
+const adminTabOptions = {
+    tabBarButton: () => {
+        const isAdmin = useSelector(state => state.cart.isAdmin);
+        const navigation = useNavigation();
+        if (isAdmin) {
+            return (
+                <TouchableOpacity onPress={() => navigation.navigate('Manage')} style={styles.manageTab}>
+                    <Ionicons name="settings" size={25} color="gray" />
+                    <Text style={styles.manageTabText}>Manage</Text>
+                </TouchableOpacity>
+            )
+        } else {
+            return null;
+        }
+    },
+    tabBarStyle: {
+        display: 'none'
+    }
+}
+
 
 const styles = StyleSheet.create({
     cartBadge: {
@@ -57,7 +81,17 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'black',
         fontSize: 12
+    },
+    manageTab: {
+        flexDirection: 'column',
+        marginTop: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    manageTabText: {
+        color: 'gray',
+        fontSize: 10
     }
 })
 
-export { screenOptions, tabOptions }
+export { screenOptions, tabOptions, adminTabOptions }

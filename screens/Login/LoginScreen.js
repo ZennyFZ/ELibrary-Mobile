@@ -7,20 +7,25 @@ import { useEffect, useState } from "react";
 import { saveToken } from '../../utils/SecureStore'
 import { Loading2 } from "../../components/Loading/Loading";
 import { storeData } from "../../utils/AsyncStorage";
+import { setIsAdmin } from "../../redux/CartReducer";
+import { useDispatch } from "react-redux";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const login = () => {
         setIsLoading(true)
         loginAccount(email, password).then((res) => {
             const userId = res.data.userId
             const jwtToken = res.data.token
+            const role = res.data.role
             saveToken(jwtToken)
             storeData("userId", userId)
+            role === "admin" ? dispatch(setIsAdmin(true)) : dispatch(setIsAdmin(false))
             setIsLoading(false)
             navigation.navigate('Home')
         }).catch((error) => {
@@ -28,7 +33,7 @@ const LoginScreen = () => {
             Alert.alert('Error', 'Invalid email or password!')
             console.log(error)
         })
-    }
+    }    
 
     if (isLoading) {
         return <Loading2 loadingText="Loading..." size="large" />
