@@ -1,15 +1,16 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { getMomoUrl, getVNPayUrl, getVietQRUrl, getZaloPayUrl } from '../../apis/PaymentService';
-import { Alert, Button, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, Image, Text, TouchableOpacity, View } from 'react-native';
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import {Loading2} from '../../components/Loading/Loading';
+import { Loading2 } from '../../components/Loading/Loading';
 import styles from './Style';
-import { useSelector } from 'react-redux';
 import { retrieveData } from '../../utils/AsyncStorage';
+import { getBooks } from '../../apis/UserService';
 
 const PaymentScreen = () => {
     const [cart, setCart] = useState([]);
+    const [isOwned, setIsOwned] = useState()
     const [userId, setUserId] = useState("");
     const totalAmount = cart.reduce((total, item) => total + item.price, 0);
     const [isLoading, setIsLoading] = useState(false);
@@ -38,16 +39,6 @@ const PaymentScreen = () => {
     const [selectedPayment, setSelectedPayment] = useState("");
     const navigation = useNavigation();
 
-    const getUserId = async () => {
-        const userId = await retrieveData('userId');
-        setUserId(userId);
-    }
-
-    const getCartItems = async () => {
-        const cartItems = await retrieveData('cart');
-        setCart(cartItems);
-    }
-
     const handleVNPPayment = () => {
         getVNPayUrl(totalAmount).then((res) => {
             setIsLoading(false);
@@ -69,7 +60,7 @@ const PaymentScreen = () => {
     const handleZaloPayPayment = () => {
         getZaloPayUrl(totalAmount).then((res) => {
             setIsLoading(false);
-            navigation.navigate("Checkout", { link: res.data.data.orderurl, paymentMethod: "ZaloPay", totalAmount: totalAmount, userId: userId, cart: cart})
+            navigation.navigate("Checkout", { link: res.data.data.orderurl, paymentMethod: "ZaloPay", totalAmount: totalAmount, userId: userId, cart: cart })
         }).catch((error) => {
             console.log(error)
         })
@@ -78,7 +69,7 @@ const PaymentScreen = () => {
     const handleVietQRPayment = () => {
         getVietQRUrl(totalAmount).then((res) => {
             setIsLoading(false);
-            navigation.navigate("Checkout", { link: res.data.data, paymentMethod: "VietQR", transactionId: res.data.transactionId, totalAmount: totalAmount, userId: userId, cart: cart})
+            navigation.navigate("Checkout", { link: res.data.data, paymentMethod: "VietQR", transactionId: res.data.transactionId, totalAmount: totalAmount, userId: userId, cart: cart })
         }).catch((error) => {
             console.log(error)
         })
@@ -113,11 +104,38 @@ const PaymentScreen = () => {
         }
     }
 
+    const initializePaymentScreen = async () => {
+        try {
+            setIsLoading(true)
+            // Retrieve user data
+            const userId = await retrieveData('userId');
+            setUserId(userId);
+
+            // Retrieve cart items
+            const cartItems = await retrieveData('cart');
+            setCart(cartItems);
+
+            // Check owned books
+            if (userId) {
+                const books = await getBooks(userId);
+                setIsOwned(books.data.bookList.some((book) => cart.some((item) => book._id === item._id)));
+                setIsLoading(false)
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
     useFocusEffect(
         useCallback(() => {
-            getCartItems();
-            getUserId();
+            initializePaymentScreen()
         }, [])
+    )
+
+    useFocusEffect(
+        useCallback(() => {
+            initializePaymentScreen()
+        }, [isOwned])
     )
 
     if (isLoading) {
@@ -129,7 +147,7 @@ const PaymentScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.paymentHeader}>
-                <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
+                <TouchableOpacity onPress={() => { navigation.navigate("Cart"), setIsOwned("")}}>
                     <Ionicons name="arrow-left" size={30} color="black" style={styles.goBack} />
                 </TouchableOpacity>
             </View>
@@ -150,9 +168,16 @@ const PaymentScreen = () => {
             />
             <View style={styles.payContainer}>
                 <Text style={styles.payContainerText}>Total Money: {totalAmount}đ</Text>
-                <TouchableOpacity onPress={() => handlePayment(selectedPayment)}>
-                    <Text style={styles.payContainerButton}>Checkout</Text>
-                </TouchableOpacity>
+                {isOwned ? (
+                    <View style={{justifyContent: "center", alignItems: "center"}}>
+                        <Text style={[styles.payContainerButton, { backgroundColor: "gray" }]}>Checkout</Text>
+                        <Text>You already own a book in the library</Text>
+                    </View>
+                ) : (
+                    <TouchableOpacity onPress={() => handlePayment(selectedPayment)}>
+                        <Text style={styles.payContainerButton}>Checkout</Text>
+                    </TouchableOpacity>
+                )}
             </View>
         </View>
     )

@@ -8,7 +8,8 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Linking from 'expo-linking';
 import { createOrder } from "../../apis/OrderService";
 import { writeOrderLog } from "../../apis/UserService";
-import {Loading2} from '../../components/Loading/Loading';
+import { Loading2 } from '../../components/Loading/Loading';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CheckoutScreen = ({ route }) => {
     const navigation = useNavigation();
@@ -37,18 +38,20 @@ const CheckoutScreen = ({ route }) => {
                 createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                     if (res.status === 200) {
                         setIsLoading(false);
+                        AsyncStorage.removeItem("cart")
                         Alert.alert("Payment Status", "Payment is successful")
                         navigation.navigate("Home")
                     }
                 }).catch(async(error) => {
                     setIsLoading(false);
-                    let logId = await writeLog(userId, totalAmount, paymentMethod, cart);
-                    Alert.alert("Payment Status", `Something went wrong. please provide this code ${logId} to our Messenger to resolve the problem`)
+                    const logId = await writeLog(userId, totalAmount, paymentMethod, cart)
+                    if (logId) {
+                        Alert.alert("Internal Server Error", `Please provide this code ${logId} to our Messenger to resolve the problem`)
+                    }
                     console.log(error);
                 })
             } else {
-                setIsLoading(false);
-                Alert.alert("Payment Status", "Payment is still processing")
+                handleUpdateStatus()
             }
         }).catch((error) => {
             setIsLoading(false);
@@ -64,7 +67,7 @@ const CheckoutScreen = ({ route }) => {
                     Alert.alert("Payment Status", "Payment is successful")
                     navigation.navigate("Home")
                 }
-            }).catch(async(error) => {
+            }).catch(async (error) => {
                 let logId = await writeLog(userId, totalAmount, paymentMethod, cart);
                 Alert.alert("Payment Status", `Something went wrong. please provide this code ${logId} to our Messenger to resolve the problem`)
                 console.log(error);
@@ -101,12 +104,11 @@ const CheckoutScreen = ({ route }) => {
             </View>
             {paymentMethod === "VietQR" ? (
                 <View style={styles.qrCodeContainer}>
-                    <Text style={styles.paymentMethodText}>Please scan the QR code to proceed payment</Text>
+                    <Text style={styles.paymentMethodText}>{transactionId}</Text>
+                    <Text style={styles.paymentMethodText}>Scan the QR code to proceed payment</Text>
                     <Image source={{ uri: link }} style={styles.qrCode} />
                     <Text style={styles.waitingText}>Payment Status: {paymentStatus}</Text>
-                    <TouchableOpacity onPress={() => handleUpdateStatus()}>
-                        <Text style={styles.updateStatusButton}>Update Status</Text>
-                    </TouchableOpacity>
+                    <Text style={styles.waitingText}>Contact us with transaction id if it is too long</Text>
                 </View>
             ) : (
                 <View style={styles.normalPaymentContainer}>
