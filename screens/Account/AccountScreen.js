@@ -6,10 +6,13 @@ import Ionicons from 'react-native-vector-icons/AntDesign';
 import { deleteToken } from '../../utils/SecureStore';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setIsAdmin } from '../../redux/CartReducer';
+import { useDispatch } from 'react-redux';
 
 const Account = () => {
     const [user, setUser] = useState({});
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const getUserInformation = () => {
         getCurrentUser().then((res) => {
@@ -22,10 +25,11 @@ const Account = () => {
     const logout = () => {
         deleteToken();
         setUser({});
+        dispatch(setIsAdmin(false));
         AsyncStorage.clear();
         navigation.navigate("Login");
     }
-
+    
     useFocusEffect(
         useCallback(() => {
             getUserInformation();

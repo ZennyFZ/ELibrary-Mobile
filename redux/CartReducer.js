@@ -22,10 +22,14 @@ export const getCartCountFromAsyncStorage = createAsyncThunk(
 const cartSlice = createSlice({
     name: 'cart',
     initialState: {
-        cart: []
+        cart: [],
+        isAdmin: false
     },
 
     reducers: {
+        setIsAdmin: (state, action) => {
+            state.isAdmin = action.payload;
+        },
         addToCart: (state, action) => {
             const itemInCart = state.cart.find(item => item._id == action.payload._id);
             if (itemInCart) {
@@ -47,5 +51,5 @@ const cartSlice = createSlice({
     }
 })
 
-export const { addToCart, getCartQuantity, removeFromCart, clearCart } = cartSlice.actions;
+export const { addToCart, getCartQuantity, removeFromCart, clearCart, setIsAdmin } = cartSlice.actions;
 export default cartSlice.reducer;
