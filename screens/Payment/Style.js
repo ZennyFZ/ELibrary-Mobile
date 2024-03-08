@@ -97,6 +97,14 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginTop: 20,
     },
+    waitingStatusContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    attentionText: {
+        fontSize: 20,
+        fontWeight: "bold",
+    },
     updateStatusButton: {
         padding: 20,
         backgroundColor: "#2196f3",

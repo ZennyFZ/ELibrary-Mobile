@@ -8,13 +8,12 @@ import * as WebBrowser from 'expo-web-browser';
 import * as Linking from 'expo-linking';
 import { createOrder } from "../../apis/OrderService";
 import { writeOrderLog } from "../../apis/UserService";
-import { Loading2 } from '../../components/Loading/Loading';
+import { Loading2, Spinner } from '../../components/Loading/Loading';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CheckoutScreen = ({ route }) => {
     const navigation = useNavigation();
     const [paymentStatus, setPaymentStatus] = useState("Waiting");
-    const [isLoading, setIsLoading] = useState(false);
     const link = route.params.link;
     const paymentMethod = route.params.paymentMethod;
     const transactionId = route.params.transactionId;
@@ -22,8 +21,7 @@ const CheckoutScreen = ({ route }) => {
     const userId = route.params.userId;
     const cart = route.params.cart;
 
-    const handleUpdateStatus = () => {
-        setIsLoading(true);
+    const handleQRPaymentStatus = () => {
         checkPaidVietQR().then((res) => {
             const paymentResponse = res.data.data.map((item) => {
                 if (item["Mô tả"].includes(transactionId)) {
@@ -37,13 +35,14 @@ const CheckoutScreen = ({ route }) => {
             if (paymentResponse === true) {
                 createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                     if (res.status === 200) {
-                        setIsLoading(false);
+                        setPaymentStatus("Paid");
                         AsyncStorage.removeItem("cart")
                         Alert.alert("Payment Status", "Payment is successful")
-                        navigation.navigate("Home")
+                        setTimeout(() => {
+                            navigation.navigate("Home")
+                        }, 3000)
                     }
-                }).catch(async(error) => {
-                    setIsLoading(false);
+                }).catch(async (error) => {
                     const logId = await writeLog(userId, totalAmount, paymentMethod, cart)
                     if (logId) {
                         Alert.alert("Internal Server Error", `Please provide this code ${logId} to our Messenger to resolve the problem`)
@@ -51,16 +50,19 @@ const CheckoutScreen = ({ route }) => {
                     console.log(error);
                 })
             } else {
-                handleUpdateStatus()
+                setTimeout(() => {
+                    handleQRPaymentStatus()
+                }, 5000)
             }
         }).catch((error) => {
-            setIsLoading(false);
-            Alert.alert("Payment Status", "Something went wrong. please checkout again")
             console.log(error);
+            setTimeout(() => {
+                handleQRPaymentStatus()
+            }, 5000)
         })
     }
 
-    const handleNormalPayment = (paymentStatus) => {
+    const handleNormalPaymentStatus = (paymentStatus) => {
         if (paymentStatus === "Paid") {
             createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                 if (res.status === 200) {
@@ -78,7 +80,7 @@ const CheckoutScreen = ({ route }) => {
         }
     }
 
-    const writeLog = async(userId, totalAmount, paymentMethod, cart) => {
+    const writeLog = async (userId, totalAmount, paymentMethod, cart) => {
         let logString = `${userId};${totalAmount};${paymentMethod};${JSON.stringify(cart)}`;
         const response = await writeOrderLog(logString).then((res) => {
             if (res.status === 200) {
@@ -90,9 +92,11 @@ const CheckoutScreen = ({ route }) => {
         return response
     }
 
-    if (isLoading) {
-        return <Loading2 />
-    }
+    useEffect(() => {
+        if (paymentMethod === "VietQR") {
+            handleQRPaymentStatus()
+        }
+    }, [])
 
     return (
         <View style={styles.container}>
@@ -107,8 +111,17 @@ const CheckoutScreen = ({ route }) => {
                     <Text style={styles.paymentMethodText}>{transactionId}</Text>
                     <Text style={styles.paymentMethodText}>Scan the QR code to proceed payment</Text>
                     <Image source={{ uri: link }} style={styles.qrCode} />
-                    <Text style={styles.waitingText}>Payment Status: {paymentStatus}</Text>
-                    <Text style={styles.waitingText}>Contact us with transaction id if it is too long</Text>
+                    {paymentStatus === "Waiting" ? (
+                        <View style={styles.waitingStatusContainer}>
+                            <Spinner />
+                            <Text style={styles.waitingText}>{paymentStatus} for payment</Text>
+                            <Text style={styles.attentionText}>Contact us with transaction id if it is too long</Text>
+                        </View>
+                    ) : (
+                        <View>
+                            <Text style={styles.waitingText}>{paymentStatus}. Thanks for Purchasing</Text>
+                        </View>
+                    )}
                 </View>
             ) : (
                 <View style={styles.normalPaymentContainer}>
