@@ -8,11 +8,12 @@ const getStripeSecret = (amount) => {
     })
 }
 
-const getVNPayUrl = async (amount) => {
+const getVNPayUrl = async (amount, mobileUri) => {
     const token = await getToken();
     return axios.post(`${PAYMENT_API_URL}/payment`, {
         amount,
-        methodType: 'Bank'
+        methodType: 'Bank',
+        mobileUri
     }, {
         headers: {
             "Cookie": `jwt=${token}`,
@@ -20,10 +21,11 @@ const getVNPayUrl = async (amount) => {
     })
 }
 
-const getMomoUrl = async (amount) => {
+const getMomoUrl = async (amount, apiType) => {
     const token = await getToken();
     return axios.post(`${PAYMENT_API_URL}/momo`, {
-        amount
+        amount,
+        apiType
     }, {
         headers: {
             "Cookie": `jwt=${token}`,
@@ -31,10 +33,11 @@ const getMomoUrl = async (amount) => {
     })
 }
 
-const getZaloPayUrl = async (amount) => {
+const getZaloPayUrl = async (amount, apiType) => {
     const token = await getToken();
     return axios.post(`${PAYMENT_API_URL}/zalopay`, {
-        amount
+        amount,
+        apiType
     }, {
         headers: {
             "Cookie": `jwt=${token}`,
@@ -62,4 +65,31 @@ const checkPaidVietQR = async () => {
     })
 }
 
-export { getStripeSecret, getVNPayUrl, getMomoUrl, getZaloPayUrl, getVietQRUrl, checkPaidVietQR }
+const checkPaidVNPay = async (queryParams) => {
+    const token = await getToken();
+    return axios.post(`${PAYMENT_API_URL}/check-paid-vnpay/?${queryParams}`, null, {
+        headers: {
+            "Cookie": `jwt=${token}`,
+        }
+    })
+}
+
+const checkPaidMomo = async (orderId) => {
+    const token = await getToken();
+    return axios.post(`${PAYMENT_API_URL}/check-paid-momo/`, {orderId} , {
+        headers: {
+            "Cookie": `jwt=${token}`,
+        }
+    })
+}
+
+const checkPaidZaloPay = async (orderId) => {
+    const token = await getToken();
+    return axios.post(`${PAYMENT_API_URL}/check-paid-zalopay/`, {apptransid: orderId} , {
+        headers: {
+            "Cookie": `jwt=${token}`,
+        }
+    })
+}
+
+export { getStripeSecret, getVNPayUrl, getMomoUrl, getZaloPayUrl, getVietQRUrl, checkPaidVietQR, checkPaidVNPay, checkPaidMomo, checkPaidZaloPay }

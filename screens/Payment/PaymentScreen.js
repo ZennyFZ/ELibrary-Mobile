@@ -4,6 +4,7 @@ import { Alert, FlatList, Image, Text, TouchableOpacity, View } from 'react-nati
 import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Loading2 } from '../../components/Loading/Loading';
+import * as Linking from 'expo-linking';
 import styles from './Style';
 import { retrieveData } from '../../utils/AsyncStorage';
 import { getBooks } from '../../apis/UserService';
@@ -14,6 +15,7 @@ const PaymentScreen = () => {
     const [userId, setUserId] = useState("");
     const totalAmount = cart.reduce((total, item) => total + item.price, 0);
     const [isLoading, setIsLoading] = useState(false);
+    const redirectUri = Linking.createURL()
     const paymentMethodArray = [
         {
             id: 1,
@@ -40,7 +42,7 @@ const PaymentScreen = () => {
     const navigation = useNavigation();
 
     const handleVNPPayment = () => {
-        getVNPayUrl(totalAmount).then((res) => {
+        getVNPayUrl(totalAmount, redirectUri).then((res) => {
             setIsLoading(false);
             navigation.navigate("Checkout", { link: res.data.vnpUrl, paymentMethod: "VNPay", totalAmount: totalAmount, userId: userId, cart: cart })
         }).catch((error) => {
@@ -49,16 +51,16 @@ const PaymentScreen = () => {
     }
 
     const handleMomoPayment = () => {
-        getMomoUrl(totalAmount).then((res) => {
+        getMomoUrl(totalAmount, redirectUri).then((res) => {
             setIsLoading(false);
-            navigation.navigate("Checkout", { link: res.data.data, paymentMethod: "Momo", totalAmount: totalAmount, userId: userId, cart: cart })
+            navigation.navigate("Checkout", { link: res.data.payUrl, paymentMethod: "Momo", totalAmount: totalAmount, userId: userId, cart: cart })
         }).catch((error) => {
             console.log(error)
         })
     }
 
     const handleZaloPayPayment = () => {
-        getZaloPayUrl(totalAmount).then((res) => {
+        getZaloPayUrl(totalAmount, redirectUri).then((res) => {
             setIsLoading(false);
             navigation.navigate("Checkout", { link: res.data.data.orderurl, paymentMethod: "ZaloPay", totalAmount: totalAmount, userId: userId, cart: cart })
         }).catch((error) => {

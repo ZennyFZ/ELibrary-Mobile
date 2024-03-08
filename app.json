@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "ELibrary_Mobile",
+    "scheme": "elibrary",
     "slug": "ELibrary_Mobile",
     "version": "1.0.0",
     "orientation": "portrait",
