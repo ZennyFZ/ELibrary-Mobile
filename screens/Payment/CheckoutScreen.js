@@ -11,7 +11,8 @@ import { writeOrderLog } from "../../apis/UserService";
 import { Loading2, Spinner } from '../../components/Loading/Loading';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkPaidMomo } from "../../apis/PaymentService";
-
+import {useDispatch } from "react-redux";
+import { clearCart } from "../../redux/CartReducer";
 const CheckoutScreen = ({ route }) => {
     const navigation = useNavigation();
     const [paymentStatus, setPaymentStatus] = useState("");
@@ -22,6 +23,11 @@ const CheckoutScreen = ({ route }) => {
     const totalAmount = route.params.totalAmount;
     const userId = route.params.userId;
     const cart = route.params.cart;
+
+    const dispatch = useDispatch();
+    const onClearCart = () => {
+        dispatch(clearCart());
+    }
 
     const handleQRPaymentStatus = () => {
         checkPaidVietQR().then((res) => {
@@ -38,7 +44,8 @@ const CheckoutScreen = ({ route }) => {
                 createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                     if (res.status === 200) {
                         setPaymentStatus("Paid");
-                        AsyncStorage.removeItem("cart")
+                        //AsyncStorage.removeItem("cart")
+                        onClearCart();
                         Alert.alert("Payment Status", "Payment is successful")
                         setTimeout(() => {
                             navigation.navigate("Home")
@@ -75,7 +82,8 @@ const CheckoutScreen = ({ route }) => {
                         createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                             if (res.status === 200) {
                                 setPaymentStatus("");
-                                AsyncStorage.removeItem("cart")
+                                //AsyncStorage.removeItem("cart")
+                                onClearCart();
                                 setIsLoading(false);
                                 Alert.alert("Payment Status", "Payment is successful")
                                 navigation.navigate("Home")
@@ -101,7 +109,8 @@ const CheckoutScreen = ({ route }) => {
                         createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                             if (res.status === 200) {
                                 setPaymentStatus("");
-                                AsyncStorage.removeItem("cart")
+                                //AsyncStorage.removeItem("cart")
+                                onClearCart();
                                 setIsLoading(false);
                                 Alert.alert("Payment Status", "Payment is successful")
                                 navigation.navigate("Home")
