@@ -45,6 +45,11 @@ const CheckoutScreen = ({ route }) => {
                     if (res.status === 200) {
                         setPaymentStatus("Paid");
                         //AsyncStorage.removeItem("cart")
+                        setPaymentStatus("");
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Home' }, { name: 'Cart' }, { name: 'Payment' }, { name: 'Checkout' }],
+                        });                    
                         onClearCart();
                         Alert.alert("Payment Status", "Payment is successful")
                         setTimeout(() => {
@@ -83,6 +88,11 @@ const CheckoutScreen = ({ route }) => {
                             if (res.status === 200) {
                                 setPaymentStatus("");
                                 //AsyncStorage.removeItem("cart")
+                                setPaymentStatus("");
+                                navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'Home' }, { name: 'Cart' }, { name: 'Payment' }, { name: 'Checkout' }],
+                                });                              
                                 onClearCart();
                                 setIsLoading(false);
                                 Alert.alert("Payment Status", "Payment is successful")
@@ -109,6 +119,10 @@ const CheckoutScreen = ({ route }) => {
                         createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                             if (res.status === 200) {
                                 setPaymentStatus("");
+                                navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'Home' }, { name: 'Cart' }, { name: 'Payment' }, { name: 'Checkout' }],
+                                });
                                 //AsyncStorage.removeItem("cart")
                                 onClearCart();
                                 setIsLoading(false);
