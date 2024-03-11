@@ -23,9 +23,9 @@ const screenOptions = ({ route }) => ({
             case 'Account':
                 iconName = focused ? 'person' : 'person-outline';
                 break;
-            case 'Manage':
-                iconName = focused ? 'settings' : 'settings-outline';
-                break;
+            // case 'Manage':
+            //     iconName = focused ? 'settings' : 'settings-outline';
+            //     break;
         }
         if (iconName === 'cart' || iconName === 'cart-outline') {
             const cart = useSelector(state => state.cart);
@@ -49,25 +49,25 @@ const tabOptions = {
     }
 }
 
-const adminTabOptions = {
-    tabBarButton: () => {
-        const isAdmin = useSelector(state => state.cart.isAdmin);
-        const navigation = useNavigation();
-        if (isAdmin) {
-            return (
-                <TouchableOpacity onPress={() => navigation.navigate('Manage')} style={styles.manageTab}>
-                    <Ionicons name="settings" size={25} color="gray" />
-                    <Text style={styles.manageTabText}>Manage</Text>
-                </TouchableOpacity>
-            )
-        } else {
-            return null;
-        }
-    },
-    tabBarStyle: {
-        display: 'none'
-    }
-}
+// const adminTabOptions = {
+//     tabBarButton: () => {
+//         const isAdmin = useSelector(state => state.cart.isAdmin);
+//         const navigation = useNavigation();
+//         if (isAdmin) {
+//             return (
+//                 <TouchableOpacity onPress={() => navigation.navigate('Manage')} style={styles.manageTab}>
+//                     <Ionicons name="settings" size={25} color="gray" />
+//                     <Text style={styles.manageTabText}>Manage</Text>
+//                 </TouchableOpacity>
+//             )
+//         } else {
+//             return null;
+//         }
+//     },
+//     tabBarStyle: {
+//         display: 'none'
+//     }
+// }
 
 
 const styles = StyleSheet.create({
@@ -94,4 +94,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export { screenOptions, tabOptions, adminTabOptions }
+export { screenOptions, tabOptions }

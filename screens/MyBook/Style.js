@@ -29,15 +29,18 @@ const styles = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        padding: 10,
+        padding: 8,
+        marginTop:20
     },
     bookCardtitle: {
         fontSize: 18,
         fontWeight: "bold",
+        marginBottom: 5,
     },
     bookCardAuthor: {
         fontSize: 14,
         color: "#7f8c8d",
+        marginBottom: 5,
     },
     bookCardPrice: {
         fontSize: 16,

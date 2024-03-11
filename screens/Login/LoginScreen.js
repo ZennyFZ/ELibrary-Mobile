@@ -25,6 +25,7 @@ const LoginScreen = () => {
             const role = res.data.role
             saveToken(jwtToken)
             storeData("userId", userId)
+            storeData("role",role)
             role === "admin" ? dispatch(setIsAdmin(true)) : dispatch(setIsAdmin(false))
             setIsLoading(false)
             navigation.navigate('Home')

@@ -19,7 +19,7 @@ const CheckoutScreen = ({ route }) => {
     const [isLoading, setIsLoading] = useState(false);
     const link = route.params.link;
     const paymentMethod = route.params.paymentMethod;
-    const transactionId = route.params.transactionId;
+    const transactionId = route.params.transactionId.replace(/-/g, "");
     const totalAmount = route.params.totalAmount;
     const userId = route.params.userId;
     const cart = route.params.cart;
@@ -66,15 +66,11 @@ const CheckoutScreen = ({ route }) => {
                     console.log(error);
                 })
             } else {
-                setTimeout(() => {
                     handleQRPaymentStatus()
-                }, 5000)
             }
         }).catch((error) => {
             console.log(error);
-            setTimeout(() => {
                 handleQRPaymentStatus()
-            }, 5000)
         })
     }
 

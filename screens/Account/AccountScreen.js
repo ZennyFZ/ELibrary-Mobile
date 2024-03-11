@@ -8,9 +8,10 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setIsAdmin } from '../../redux/CartReducer';
 import { useDispatch } from 'react-redux';
-
+import { retrieveData } from '../../utils/AsyncStorage';
 const Account = () => {
     const [user, setUser] = useState({});
+    const [roleAdmin, setRoleAdmin] = useState(false);
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
@@ -26,6 +27,7 @@ const Account = () => {
         deleteToken();
         setUser({});
         dispatch(setIsAdmin(false));
+        setRoleAdmin(false);
         AsyncStorage.clear();
         navigation.navigate("Login");
     }
@@ -33,6 +35,19 @@ const Account = () => {
     useFocusEffect(
         useCallback(() => {
             getUserInformation();
+        }, [])
+    );
+
+    const isAdmin = async() =>{
+        const role = await retrieveData('role');
+        if(role === 'admin'){
+            setRoleAdmin(true);
+        }
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            isAdmin();
         }, [])
     );
 
@@ -51,7 +66,25 @@ const Account = () => {
                 </TouchableOpacity>
             </View>
             <View style={styles.accountSection}>
-                <FlatList
+                {roleAdmin? (
+                    <FlatList
+                    data={[
+                        { key: 'Order', icon: 'bars', screen: 'Order' },
+                        { key: 'Change password', icon: 'edit', screen: 'ChangePassword' },
+                        { key: 'Manage', icon: 'setting', screen: 'Manage' },
+                    ]}
+                    renderItem={({ item }) => (
+                        <TouchableOpacity onPress={() => navigation.navigate(item.screen)}>
+                            <View style={styles.sectionItem}>
+                                <Ionicons name={item.icon} size={30} color="#E67E22" />
+                                <Text style={styles.sectionText}>{item.key}</Text>
+                                <Ionicons name="right" size={30} color="#E67E22" style={styles.rightIcon} />
+                            </View>
+                        </TouchableOpacity>
+                    )}
+                />
+                ):(
+                    <FlatList
                     data={[
                         { key: 'Order', icon: 'bars', screen: 'Order' },
                         { key: 'Change password', icon: 'edit', screen: 'ChangePassword' },
@@ -66,6 +99,8 @@ const Account = () => {
                         </TouchableOpacity>
                     )}
                 />
+                )}
+
                 <TouchableOpacity style={styles.logoutButton} onPress={() => logout()}>
                     <Text style={styles.logoutText}>Logout</Text>
                 </TouchableOpacity>
