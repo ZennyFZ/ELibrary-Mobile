@@ -5,13 +5,37 @@ import styles from './Style';
 import CustomeHeader from '../../components/CustomHeader/CustomHeader'
 import { addToCart } from '../../redux/CartReducer';
 import { useDispatch } from 'react-redux';
-
+import { retrieveData } from '../../utils/AsyncStorage';
+import { getBooks } from '../../apis/UserService';
+import { useState } from 'react';
 const BookDetail = ({ route }) => {
     const navigation = useNavigation();
     const bookData = route.params.book;
     const prevScreen = route.params.prevScreen;
     const category = route.params.category;
+    const [isOwned, setIsOwned] = useState(false);
     const dispatch = useDispatch();
+
+    const isInMyBook = async (bookID) => {
+        try {
+            // Retrieve user data
+            const userId = await retrieveData('userId');
+
+            // Check owned books
+            if (userId) {
+                const books = await getBooks(userId);
+                // console.log(bookID)
+                // console.log(books.data.bookList)
+                // console.log(books.data.bookList.some((book) => book._id === bookID))
+                const isUserOwnsBook = books.data.bookList.some((book) => book._id === bookID)
+                setIsOwned( isUserOwnsBook)
+                return isUserOwnsBook
+            }
+        } catch (err) {
+            console.log(err);
+            return false
+        }
+    }
 
     const addToCartHandler = (book) => {
         dispatch(addToCart(book));
@@ -28,9 +52,17 @@ const BookDetail = ({ route }) => {
                     <View style={styles.overviewDetailBox}>
                         <View style={styles.priceAndCartBox}>
                             <Text style={styles.overviewDetailPrice}>{bookData.price}đ</Text>
-                            <TouchableOpacity style={styles.addToCartButton} onPress={() => addToCartHandler(bookData)}>
-                                <Text style={styles.addToCartButtonText}>Add to cart</Text>
-                            </TouchableOpacity>
+                            {isInMyBook(bookData._id)?(<></>): null}
+                            {isOwned ? (
+                                <TouchableOpacity style={styles.DisableaddToCartButton} >
+                                    <Text style={styles.addToCartButtonText}>Already have</Text>
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity style={styles.addToCartButton} onPress={() => addToCartHandler(bookData)}>
+                                    <Text style={styles.addToCartButtonText}>Add to cart</Text>
+                                </TouchableOpacity>
+                            )}
+
                         </View>
                         <Text style={styles.overviewDetailTitle}>{bookData.title}</Text>
                         <Text style={styles.overviewDetailAuthor}>Author: {bookData.author}</Text>

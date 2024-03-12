@@ -152,8 +152,9 @@ const PaymentScreen = () => {
                 <TouchableOpacity onPress={() => { navigation.navigate("Cart"), setIsOwned("")}}>
                     <Ionicons name="arrow-left" size={30} color="black" style={styles.goBack} />
                 </TouchableOpacity>
+                <Text style={styles.choosePaymentText}>Payment</Text>
             </View>
-            <Text style={styles.choosePaymentText}>Choose payment method</Text>
+           
             <FlatList
                 data={paymentMethodArray}
                 renderItem={({ item }) => {
@@ -172,8 +173,7 @@ const PaymentScreen = () => {
                 <Text style={styles.payContainerText}>Total Money: {totalAmount}đ</Text>
                 {isOwned ? (
                     <View style={{justifyContent: "center", alignItems: "center"}}>
-                        <Text style={[styles.payContainerButton, { backgroundColor: "gray" }]}>Checkout</Text>
-                        <Text>You already own a book in the library</Text>
+                        <Text style={[styles.payContainerButton, { backgroundColor: "gray" }]}>Already haved</Text>
                     </View>
                 ) : (
                     <TouchableOpacity onPress={() => handlePayment(selectedPayment)}>

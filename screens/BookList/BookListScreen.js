@@ -6,12 +6,12 @@ import CustomHeader from '../../components/CustomHeader/CustomHeader';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { useNavigation } from '@react-navigation/native';
 import { addToCart } from "../../redux/CartReducer";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
 
 const BookListScreen = () => {
     const navigation = useNavigation();
     const [books, setBooks] = useState([]);
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const getAllBooks = () => {
         getBooks().then((res) => {
             setBooks(res.data.bookList);
@@ -19,9 +19,9 @@ const BookListScreen = () => {
             console.log(err);
         });
     }
-    const addToCartHandler = (book) => {
-        dispatch(addToCart(book));
-    }
+    // const addToCartHandler = (book) => {
+    //     dispatch(addToCart(book));
+    // }
 
     const goToBookDetail = (bookInformation) => {
         navigation.navigate("BookDetail", { prevScreen: "BookList", book: bookInformation });
@@ -47,9 +47,9 @@ const BookListScreen = () => {
                                     <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{item.title}</Text>
                                     <Text style={styles.bookCardAuthor}>{item.author}</Text>
                                     <Text style={styles.bookCardPrice}>{item.price}đ</Text>
-                                    <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(item)}>
+                                    {/* <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(item)}>
                                         <Text style={styles.bookCardButtonText}>Add To Cart</Text>
-                                    </TouchableOpacity>
+                                    </TouchableOpacity> */}
                                 </View>
                             </View>
                         </TouchableOpacity>

@@ -94,13 +94,13 @@ const CategoryDetailScreen = ({ route }) => {
                                         </View>
                                     </Skeleton>
                                     <View style={{height:5}}/>
-                                    {loading == false ? (
+                                    {/* {loading == false ? (
                                     <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(item)}>
                                         <Text style={styles.bookCardButtonText}>Add To Cart</Text>
                                     </TouchableOpacity>
                                     ) : (
                                         <View style={styles.skeleton_btn}></View>
-                                    )}
+                                    )} */}
                                 </View>
                                 </Skeleton.Group>
                             </View>

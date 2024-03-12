@@ -62,9 +62,9 @@ const SearchScreen = ({ route }) => {
                                     <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{item.title}</Text>
                                     <Text style={styles.bookCardAuthor}>{item.author}</Text>
                                     <Text style={styles.bookCardPrice}>{item.price}đ</Text>
-                                    <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(item)}>
+                                    {/* <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(item)}>
                                         <Text style={styles.bookCardButtonText}>Add To Cart</Text>
-                                    </TouchableOpacity>
+                                    </TouchableOpacity> */}
                                 </View>
                             </View>
                         </TouchableOpacity>

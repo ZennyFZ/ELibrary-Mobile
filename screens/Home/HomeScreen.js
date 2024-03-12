@@ -15,7 +15,7 @@ const HomeScreen = () => {
   const [books, setBooks] = useState([]);
   const [suggestedBooks, setSuggestedBooks] = useState([]);
   const navigation = useNavigation();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const fetchBookData = async () => {
     try {
@@ -44,9 +44,9 @@ const HomeScreen = () => {
     navigation.navigate("BookDetail", { prevScreen: "Home", book: bookInformation });
   }
 
-  const addToCartHandler = (book) => {
-    dispatch(addToCart(book));
-  }
+  // const addToCartHandler = (book) => {
+  //   dispatch(addToCart(book));
+  // }
 
   useFocusEffect(
     useCallback(() => {
@@ -91,9 +91,9 @@ const HomeScreen = () => {
                         <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{book.title}</Text>
                         <Text style={styles.bookCardAuthor}>{book.author}</Text>
                         <Text style={styles.bookCardPrice}>{book.price}đ</Text>
-                        <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(book)}>
+                        {/* <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(book)}>
                           <Text style={styles.bookCardButtonText}>Add To Cart</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -120,9 +120,9 @@ const HomeScreen = () => {
                             <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{book.title}</Text>
                             <Text style={styles.bookCardAuthor}>{book.author}</Text>
                             <Text style={styles.bookCardPrice}>{book.price} VND</Text>
-                            <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(book)}>
+                            {/* <TouchableOpacity style={styles.bookCardButton} onPress={() => addToCartHandler(book)}>
                               <Text style={styles.bookCardButtonText}>Add To Cart</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                           </View>
                         </View>
                       </View>
