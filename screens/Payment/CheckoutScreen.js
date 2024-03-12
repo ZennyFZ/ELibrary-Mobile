@@ -11,7 +11,7 @@ import { writeOrderLog } from "../../apis/UserService";
 import { Loading2, Spinner } from '../../components/Loading/Loading';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkPaidMomo } from "../../apis/PaymentService";
-import {useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearCart } from "../../redux/CartReducer";
 const CheckoutScreen = ({ route }) => {
     const navigation = useNavigation();
@@ -19,7 +19,7 @@ const CheckoutScreen = ({ route }) => {
     const [isLoading, setIsLoading] = useState(false);
     const link = route.params.link;
     const paymentMethod = route.params.paymentMethod;
-    const transactionId = route.params.transactionId.replace(/-/g, "");
+    const transactionId = route.params.transactionId?.replace(/-/g, "");
     const totalAmount = route.params.totalAmount;
     const userId = route.params.userId;
     const cart = route.params.cart;
@@ -30,26 +30,25 @@ const CheckoutScreen = ({ route }) => {
     }
 
     const handleQRPaymentStatus = () => {
+        let checkPaidResponse = ""
         checkPaidVietQR().then((res) => {
-            const paymentResponse = res.data.data.map((item) => {
+            res.data.data.map((item) => {
                 if (item["Mô tả"].includes(transactionId)) {
                     setIsLoading(false);
+                    checkPaidResponse = true;
                     setPaymentStatus("Paid");
-                    return true;
                 }
-                return false;
             })
 
-            if (paymentResponse === true) {
+            if (checkPaidResponse === true) {
                 createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                     if (res.status === 200) {
-                        setPaymentStatus("Paid");
                         //AsyncStorage.removeItem("cart")
                         setPaymentStatus("");
                         navigation.reset({
                             index: 0,
                             routes: [{ name: 'Home' }, { name: 'Cart' }, { name: 'Payment' }, { name: 'Checkout' }],
-                        });                    
+                        });
                         onClearCart();
                         Alert.alert("Payment Status", "Payment is successful")
                         setTimeout(() => {
@@ -66,11 +65,11 @@ const CheckoutScreen = ({ route }) => {
                     console.log(error);
                 })
             } else {
-                    handleQRPaymentStatus()
+                handleQRPaymentStatus()
             }
         }).catch((error) => {
             console.log(error);
-                handleQRPaymentStatus()
+            handleQRPaymentStatus()
         })
     }
 
@@ -88,7 +87,7 @@ const CheckoutScreen = ({ route }) => {
                                 navigation.reset({
                                     index: 0,
                                     routes: [{ name: 'Home' }, { name: 'Cart' }, { name: 'Payment' }, { name: 'Checkout' }],
-                                });                              
+                                });
                                 onClearCart();
                                 setIsLoading(false);
                                 Alert.alert("Payment Status", "Payment is successful")
@@ -166,7 +165,6 @@ const CheckoutScreen = ({ route }) => {
             Alert.alert("Payment Status", "Payment is failed")
             navigation.navigate("Payment")
         }
-        console.log(data);
     }
 
     useEffect(() => {
