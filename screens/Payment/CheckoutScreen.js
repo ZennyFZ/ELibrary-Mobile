@@ -11,17 +11,23 @@ import { writeOrderLog } from "../../apis/UserService";
 import { Loading2, Spinner } from '../../components/Loading/Loading';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { checkPaidMomo } from "../../apis/PaymentService";
-
+import {useDispatch } from "react-redux";
+import { clearCart } from "../../redux/CartReducer";
 const CheckoutScreen = ({ route }) => {
     const navigation = useNavigation();
     const [paymentStatus, setPaymentStatus] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const link = route.params.link;
     const paymentMethod = route.params.paymentMethod;
-    const transactionId = route.params.transactionId;
+    const transactionId = route.params.transactionId.replace(/-/g, "");
     const totalAmount = route.params.totalAmount;
     const userId = route.params.userId;
     const cart = route.params.cart;
+
+    const dispatch = useDispatch();
+    const onClearCart = () => {
+        dispatch(clearCart());
+    }
 
     const handleQRPaymentStatus = () => {
         checkPaidVietQR().then((res) => {
@@ -38,7 +44,13 @@ const CheckoutScreen = ({ route }) => {
                 createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                     if (res.status === 200) {
                         setPaymentStatus("Paid");
-                        AsyncStorage.removeItem("cart")
+                        //AsyncStorage.removeItem("cart")
+                        setPaymentStatus("");
+                        navigation.reset({
+                            index: 0,
+                            routes: [{ name: 'Home' }, { name: 'Cart' }, { name: 'Payment' }, { name: 'Checkout' }],
+                        });                    
+                        onClearCart();
                         Alert.alert("Payment Status", "Payment is successful")
                         setTimeout(() => {
                             navigation.navigate("Home")
@@ -54,15 +66,11 @@ const CheckoutScreen = ({ route }) => {
                     console.log(error);
                 })
             } else {
-                setTimeout(() => {
                     handleQRPaymentStatus()
-                }, 5000)
             }
         }).catch((error) => {
             console.log(error);
-            setTimeout(() => {
                 handleQRPaymentStatus()
-            }, 5000)
         })
     }
 
@@ -75,7 +83,13 @@ const CheckoutScreen = ({ route }) => {
                         createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                             if (res.status === 200) {
                                 setPaymentStatus("");
-                                AsyncStorage.removeItem("cart")
+                                //AsyncStorage.removeItem("cart")
+                                setPaymentStatus("");
+                                navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'Home' }, { name: 'Cart' }, { name: 'Payment' }, { name: 'Checkout' }],
+                                });                              
+                                onClearCart();
                                 setIsLoading(false);
                                 Alert.alert("Payment Status", "Payment is successful")
                                 navigation.navigate("Home")
@@ -101,7 +115,12 @@ const CheckoutScreen = ({ route }) => {
                         createOrder(userId, totalAmount, paymentMethod, cart).then((res) => {
                             if (res.status === 200) {
                                 setPaymentStatus("");
-                                AsyncStorage.removeItem("cart")
+                                navigation.reset({
+                                    index: 0,
+                                    routes: [{ name: 'Home' }, { name: 'Cart' }, { name: 'Payment' }, { name: 'Checkout' }],
+                                });
+                                //AsyncStorage.removeItem("cart")
+                                onClearCart();
                                 setIsLoading(false);
                                 Alert.alert("Payment Status", "Payment is successful")
                                 navigation.navigate("Home")

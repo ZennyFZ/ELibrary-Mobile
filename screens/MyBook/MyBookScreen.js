@@ -44,7 +44,7 @@ const MyBook = () => {
                         <TouchableOpacity key={item._id} onPress={() => goToBookViewer(item.file)}>
                             <View style={styles.bookCard}>
                                 <View style={styles.bookCardContent}>
-                                    <Image source={{ uri: item.image }} style={{ width: 200, height: 250 }} />
+                                    <Image source={{ uri: item.image }} style={{ width: 200, height: 300 }} />
                                     <Text style={styles.bookCardtitle} numberOfLines={1} ellipsizeMode="tail" >{item.title}</Text>
                                     <Text style={styles.bookCardAuthor}>{item.author}</Text>
                                 </View>

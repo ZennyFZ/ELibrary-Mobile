@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
         height: 50,
         marginTop: 30,
         backgroundColor: "white",
-        borderRadius: 20,
+        borderRadius: 10,
+        marginBottom: 10
     },
     searchInput: {
         width: windowWidth - 60,

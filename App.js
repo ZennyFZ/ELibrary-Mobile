@@ -90,7 +90,7 @@ export default function App() {
             <Tab.Screen name="Cart" component={CartScreen} />
             <Tab.Screen name="MyBook" component={MyBookScreen} />
             <Tab.Screen name="Account" component={AccountScreen} />
-            <Tab.Screen name="Manage" component={AdminScreen} options={adminTabOptions} />
+            <Tab.Screen name="Manage" component={AdminScreen} options={tabOptions} />
             <Tab.Screen name="BookDetailManage" component={BookDetailManage} options={{unmountOnBlur: true, tabBarButton: () => null, tabBarStyle: { display: 'none' },}} />
             <Tab.Screen name="ViewBookScreen" component={ViewBookScreen} options={{unmountOnBlur: true, tabBarButton: () => null, tabBarStyle: { display: 'none' },}} />
           </Tab.Navigator>

@@ -4,7 +4,7 @@ import styles from "./Style";
 import { getCategories } from "../../apis/CategoryService";
 import { useCallback, useState } from "react";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-
+import SearchBar from "../../components/SearchBar/SearchBar";
 const Category = () => {
     const [categories, setCategories] = useState([])
     const navigation = useNavigation()
@@ -29,6 +29,7 @@ const Category = () => {
 
     return (
         <View style={styles.container}>
+            <SearchBar/>
             <FlatList
                 contentContainerStyle={styles.categoryBox}
                 data={categories}
