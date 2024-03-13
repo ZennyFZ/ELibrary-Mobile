@@ -22,9 +22,9 @@ const MyBook = () => {
         }
     }
 
-    const goToBookViewer = (bookFileUrl) => {
+    const goToBookViewer = (bookFileUrl, bookName) => {
         console.log(bookFileUrl);
-        navigation.navigate("BookViewer", { pdfLink: bookFileUrl });
+        navigation.navigate("BookViewer", { pdfLink: bookFileUrl, bookName: bookName});
     }
 
     useFocusEffect(
@@ -41,7 +41,7 @@ const MyBook = () => {
                 numColumns={2}
                 renderItem={({ item }) => {
                     return (
-                        <TouchableOpacity key={item._id} onPress={() => goToBookViewer(item.file)}>
+                        <TouchableOpacity key={item._id} onPress={() => goToBookViewer(item.file, item.title)}>
                             <View style={styles.bookCard}>
                                 <View style={styles.bookCardContent}>
                                     <Image source={{ uri: item.image }} style={{ width: 200, height: 300 }} />
