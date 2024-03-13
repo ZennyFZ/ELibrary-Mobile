@@ -41,6 +41,16 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         marginBottom: 20,
     },
+    DisableaddToCartButton:{
+        backgroundColor: 'gray',
+        width: 200,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        marginHorizontal: 20,
+        marginBottom: 20,        
+    },
     addToCartButtonText: {
         fontSize: 20,
         color: 'white',

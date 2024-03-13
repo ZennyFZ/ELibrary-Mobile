@@ -12,10 +12,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         padding: 20,
         marginTop: 20,
+        alignItems:"center"
     },
     paymentHeaderText: {
         fontSize: 20,
-        color: "black",
     },
     goBack: {
         marginRight: 10,
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
     payContainer: {
         width: windowWidth,
-        height: windowHeight / 3,
+        height: windowHeight / 4.5,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -70,10 +70,10 @@ const styles = StyleSheet.create({
     },
     qrCodeContainer: {
         backgroundColor: "white",
-        padding: 20,
+        padding: 5,
         borderRadius: 20,
         elevation: 5,
-        margin: 20,
+        margin: 5,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     qrCode: {
-        width: windowWidth - 40,
+        width: windowWidth - 50,
         height: windowHeight / 1.5,
         alignSelf: "center",
     },
